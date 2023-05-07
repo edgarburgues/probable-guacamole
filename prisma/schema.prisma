@@ -5,14 +5,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+generator erd {
+  provider = "prisma-erd-generator"
 }
 
-model Users {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  createdAt DateTime @default(now()) @db.DateTime(0)
-  updatedAt DateTime? @updatedAt
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                    String     @id @default(cuid())
+  email                 String     @unique
+  name                  String?
+  surname               String?
+  phone                 String?
+  password              String
+  birthday              DateTime?
+  salt                  String
+  last_login_ip_address String
+  current_logged_in_at  DateTime
+  last_logged_in_at     DateTime
+  created_at            DateTime   @default(now())
+  role                  String
+  subjects              Subjects[]
+}
+
+model Subjects {
+  id          String   @id @default(cuid())
+  name        String?
+  description String?
+  created_at  DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
 }

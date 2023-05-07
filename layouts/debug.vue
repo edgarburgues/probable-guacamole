@@ -3,6 +3,12 @@
         <nav class="p-4 flex justify-between items-center ">
             <img class="w-52" src="~/assets/logo.webp" alt="Nuxt.js" />
 
+            <h1 class="font-bold text-3xl">DEBUG</h1>
+
+            <div>
+                <!-- TODO: Add config button -->
+                <h1 class="font-bold text-3xl">Config button</h1>
+            </div>
 
         </nav>
         <hr>

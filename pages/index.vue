@@ -1,48 +1,75 @@
-
-<template>
-    <title>Index | Capitol Formación Profesional</title>
-    <div class="grid grid-cols-5 h-full">
-        <div class="col-span-4 flex justify-center items-center">
-            <h1 class="text-5xl font-bold">Simple Season</h1>
-        </div>
-        <div class="bg-slate-200 dark:bg-slate-600">
-            <div class="flex flex-col justify-center items-center h-full">
-                <h1 class="text-2xl font-bold">Login</h1>
-                <div class=" w-5/6">
-                    <div class="mt-2">
-                        <input v-model="credentials.email" class="w-full rounded p-2 text-slate-900" type="email"
-                            placeholder="email" />
-                    </div>
-                    <div class="mt-2">
-                        <input v-model="credentials.password" class="w-full rounded p-2 text-slate-900" type="password"
-                            placeholder="password" />
-                    </div>
-                    <div class="mt-2">
-                        <button @click="login"
-                            class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500"
-                            type="submit">Login</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-
-
-
 <script setup lang="ts">
-
 definePageMeta({
-    layout: 'default',
-})
+    middleware: ["auth"]
+});
 
-const credentials = reactive({
-    email: '',
-    password: ''
-})
+const _id = ref();
+const _name = ref();
+const _surname = ref();
+const _email = ref();
+const _phone = ref();
+const _created_at = ref();
+const _role = ref();
+const _birthday = ref();
 
+const me = async () => {
+    const token = useCookie('token').value || "";
 
+    return await $fetch('/auth/me', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token: token
+        })
+    }).then((data: any) => {
+        return data;
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+const logout = async () => {
+    let { success } = await $fetch('/auth/logout', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+    }).then((data: any) => {
+        return data;
+    }).catch((error) => {
+        console.log(error);
+    });
+
+    if (success) {
+        window.location.href = '/';
+    }
+}
+
+onMounted(async () => {
+    //Get user data that was stored in the cookie
+    const { user: { id, name, surname, email, phone, created_at, role, birthday } } = await me();
+
+    _id.value = id;
+    _name.value = name;
+    _surname.value = surname;
+    _email.value = email;
+    _phone.value = phone;
+    _created_at.value = created_at;
+    _role.value = role;
+    _birthday.value = birthday;
+
+    switch (role) {
+        case "0":
+            navigateTo("./admin");
+            break;
+        case "1":
+            navigateTo("./teacher");
+            break;
+        default:
+            navigateTo("./student");
+            break;
+
+    }
+});
 
 </script>
- 
+
+
