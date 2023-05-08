@@ -38,7 +38,7 @@
                     <div class="mt-2">
                         <button
                             class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                            type="submit">Save teacher</button>
+                            type="submit">Save Teacher</button>
                     </div>
 
                 </form>
@@ -131,15 +131,12 @@ const surname = ref();
 const email = ref();
 const phone = ref();
 
-const register_message = ref();
-const register_button_label = ref("REGISTER");
 const birthday = ref();
 
 const register = async () => {
 
-    if (id.value !== '') {
+    if (id.value !== '' && id.value !== undefined) {
         //edit user
-
         await $fetch('/api/updateUserByID', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -151,11 +148,11 @@ const register = async () => {
                 phone: phone.value,
 
             })
-        }).then((data: any) => {
+        }).then(async (data: any) => {
             if (data) {
                 console.log(data);
 
-                location.reload();
+                teachers.value = await me();
             } else {
                 console.log('error');
             }
@@ -163,7 +160,6 @@ const register = async () => {
 
     } else {
         // create user
-
         await $fetch('/auth/register', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -176,15 +172,9 @@ const register = async () => {
                 birthday: birthday.value,
                 role: '1'
             })
-        }).then((data: any) => {
+        }).then(async (data: any) => {
             if (data.success) {
-                name.value = null;
-                surname.value = null;
-                email.value = null;
-                phone.value = null;
-                birthday.value = null;
-
-                location.reload();
+                teachers.value = await me();
             }
         }).catch((error) => {
             console.log(error);
@@ -211,8 +201,6 @@ async function editUser(idParam: string) {
             phone.value = data[0].phone;
             birthday.value = new Date(data[0].birthday).toISOString().split('T')[0];
 
-
-
         } else {
             console.log("No data");
         }
@@ -230,8 +218,8 @@ async function deleteUser(id: string) {
             body: JSON.stringify({
                 id: id
             })
-        }).then(() => {
-            location.reload();
+        }).then(async () => {
+            teachers.value = await me();
         }).catch((error) => {
             console.log(error);
         });

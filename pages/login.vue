@@ -62,7 +62,6 @@ const login = async () => {
             password: password.value
         })
     }).then((data: any) => {
-        console.log(data);
         if (data.success) {
             window.location.href = "/";
         } else {
