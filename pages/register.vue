@@ -33,8 +33,8 @@
                         placeholder="Birthday" required />
                 </div>
                 <div class="mt-2">
-                    <input id="birthday" class="w-full rounded p-2 text-slate-900" type="text" v-model="role"
-                        placeholder="Role" required />
+                    <input id="role" class="w-full rounded p-2 text-slate-900" type="text" v-model="role" placeholder="Role"
+                        required />
                 </div>
                 <div class="mt-2">
                     <button

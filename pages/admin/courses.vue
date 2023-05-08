@@ -1,7 +1,7 @@
 <template>
     <title>Student Management | Capitol Formación Profesional </title>
     <div class="grid grid-cols-12 gap-1 ">
-        <Leftbar />
+        <AdminLeftbar />
         <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
             <div class="p-4">
                 <form @submit.prevent="createCourse"
@@ -145,7 +145,8 @@ async function createCourse() {
         body: JSON.stringify(data)
     });
 
-    const result = await response.json();
+    // const result = await response.json();
+    getCourses();
 
 }
 async function getCourses() {
@@ -224,8 +225,9 @@ async function createSubject() {
         body: JSON.stringify(data)
     });
 
-    let result = await response.json();
+    // let result = await response.json();
 
+    getSubjects();
 }
 
 async function getSubjects() {

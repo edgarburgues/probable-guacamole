@@ -1,7 +1,7 @@
 <template>
     <title>Teacher Management | Capitol Formación Profesional </title>
     <div class="grid grid-cols-12 gap-1 ">
-        <Leftbar />
+        <AdminLeftbar />
         <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
             <div class="p-4">
                 <form @submit.prevent="register" class="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">

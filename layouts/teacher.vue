@@ -2,7 +2,7 @@
 
 
 const accountPage = () => {
-    navigateTo('/account');
+    navigateTo('account');
 }
 
 </script>
@@ -15,7 +15,7 @@ const accountPage = () => {
             <h1 class="text-2xl font-bold">Teacher Panel</h1>
 
             <button @click="accountPage">
-              Configuración
+                Configuración
             </button>
 
         </nav>

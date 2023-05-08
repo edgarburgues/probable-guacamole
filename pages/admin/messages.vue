@@ -12,7 +12,7 @@ definePageMeta({
 
 <template>
     <div class="grid grid-cols-12 gap-1">
-        <Leftbar />
+        <AdminLeftbar />
         <div class="col-span-9 bg-slate-600">
             Messages
         </div>
