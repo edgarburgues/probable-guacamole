@@ -55,4 +55,5 @@ model Messages {
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
+  from_id    String   @default("0")
 }

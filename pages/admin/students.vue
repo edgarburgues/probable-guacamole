@@ -245,4 +245,6 @@ async function deleteUser(id: string) {
             });
     }
 }
+
+// BUG: Course no se añade al alumno
 </script>

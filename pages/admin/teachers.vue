@@ -226,4 +226,6 @@ async function deleteUser(id: string) {
     }
 }
 
+// TODO: Implementar botón de 'Clear'
+
 </script>
