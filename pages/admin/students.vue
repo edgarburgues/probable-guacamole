@@ -1,6 +1,6 @@
 <template>
-    <title>Student Management | Capitol Formación Profesional </title>
-    <div class="grid grid-cols-12 gap-1 ">
+    <title>Student Management | Capitol Formación Profesional</title>
+    <div class="grid grid-cols-12 gap-1">
         <AdminLeftbar />
         <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
             <div class="p-4">
@@ -9,9 +9,8 @@
                         <input id="id" class="hidden" type="text" v-model="id" placeholder="id" />
                     </div>
                     <div class="mt-2">
-                        <input id="name"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="text"
-                            v-model="name" placeholder="Name" required />
+                        <input id="name" class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100"
+                            type="text" v-model="name" placeholder="Name" required />
                     </div>
                     <div class="mt-2">
                         <input id="surname"
@@ -20,32 +19,43 @@
                     </div>
                     <div class="mt-2">
                         <input id="email"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100"
-                            type="email" v-model="email" placeholder="Email" required />
+                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="email"
+                            v-model="email" placeholder="Email" required />
                     </div>
                     <div class="mt-2">
                         <input id="phone"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="tel"
+                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="tel"
                             v-model="phone" placeholder="Phone" required />
                     </div>
 
                     <div class="mt-2">
                         <input id="birthday"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="date"
+                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="date"
                             v-model="birthday" placeholder="Birthday" required />
+                    </div>
+
+                    <div class="mt-2">
+                        <select id="course_id" v-model="idCourseSubject"
+                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100"
+                            placeholder="Course" required>
+                            <option value="" disabled selected>Select a course</option>
+                            <option v-for="course in courses" :key="course.id" :value="course.id">
+                                {{ course.name }} - {{ course.id }}
+                            </option>
+                        </select>
                     </div>
 
                     <div class="mt-2">
                         <button
                             class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                            type="submit">Save student</button>
+                            type="submit">
+                            Save student
+                        </button>
                     </div>
-
                 </form>
             </div>
 
             <div class="p-4 col-span-2">
-
                 <table class="">
                     <thead>
                         <tr>
@@ -55,6 +65,7 @@
                             <th class="px-4 py-2">Email</th>
                             <th class="px-4 py-2">Phone</th>
                             <th class="px-4 py-2">Birthday</th>
+                            <th class="px-4 py-2">Course</th>
                             <th class="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
@@ -67,6 +78,13 @@
                             <td class="px-4 py-2">{{ student.email }}</td>
                             <td class="px-4 py-2">{{ student.phone }}</td>
                             <td class="px-4 py-2">{{ normalizeDate(student.birthday) }}</td>
+                            <td class="px-4 py-2">
+                                <template v-for="course in courses">
+                                    <template v-if="course.id == student.coursesId">
+                                        {{ course.name }}
+                                    </template>
+                                </template>
+                            </td>
                             <td class="grid gap-2 grid-cols-2 p-2">
                                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                                     @click="editUser(student.id)">
@@ -81,28 +99,24 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
 </template>
 
-
 <script setup lang="ts">
-
 definePageMeta({
     middleware: ["auth"],
-    layout: "admin"
+    layout: "admin",
 });
 
 const me = async () => {
     try {
-        const response = await fetch('/api/getUsersByRole', {
+        const response = await fetch("/api/users/getUsersByRole", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                role: "2"
-            })
+                role: "2",
+            }),
         });
         const data = await response.json();
         return data;
@@ -112,16 +126,27 @@ const me = async () => {
 };
 
 const students = ref([]);
+const coursesData: any = ref([]);
+var courses = ref([]);
 
 onMounted(async () => {
     students.value = await me();
+
+    coursesData.value = await fetch("/api/courses/getCourses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+    });
+    courses.value = await coursesData.value.json().then((data: any) => {
+        return data.body;
+    });
 });
 
 function normalizeDate(date: string) {
     const d = new Date(date);
-    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-    const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
-    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+    const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
+    const mo = new Intl.DateTimeFormat("en", { month: "2-digit" }).format(d);
+    const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
     return `${da}-${mo}-${ye}`;
 }
 
@@ -130,14 +155,12 @@ const name = ref();
 const surname = ref();
 const email = ref();
 const phone = ref();
-
 const birthday = ref();
+const idCourseSubject = ref("");
 
 const register = async () => {
-
-    if (id.value !== '' && id.value !== undefined) {
-        //edit user
-        await $fetch('/api/updateUserByID', {
+    if (id.value !== "" && id.value !== undefined) {
+        await $fetch("/api/users/updateUserByID", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -146,21 +169,16 @@ const register = async () => {
                 surname: surname.value,
                 email: email.value,
                 phone: phone.value,
-
-            })
+            }),
         }).then(async (data: any) => {
             if (data) {
-                console.log(data);
-
                 students.value = await me();
             } else {
-                console.log('error');
+                console.log("error");
             }
-        })
-
+        });
     } else {
-        // create user
-        await $fetch('/auth/register', {
+        await $fetch("/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -168,62 +186,63 @@ const register = async () => {
                 surname: surname.value,
                 email: email.value,
                 phone: phone.value,
-                password: 'changemeImaStudent',
+                password: "changemeImaStudent",
                 birthday: birthday.value,
-                role: '2'
+                role: "2",
+                coursesId: idCourseSubject.value,
+            }),
+        })
+            .then(async (data: any) => {
+                if (data.success) {
+                    students.value = await me();
+                }
             })
-        }).then(async (data: any) => {
-            if (data.success) {
-                students.value = await me();
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
     }
-
-
-}
+};
 
 async function editUser(idParam: string) {
-    await $fetch('/api/getUserByID', {
+    await $fetch("/api/users/getUserByID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            id: idParam
+            id: idParam,
+        }),
+    })
+        .then((data: any) => {
+            if (data) {
+                id.value = idParam;
+                name.value = data[0].name;
+                surname.value = data[0].surname;
+                email.value = data[0].email;
+                phone.value = data[0].phone;
+                birthday.value = new Date(data[0].birthday).toISOString().split("T")[0];
+            } else {
+                console.log("No data");
+            }
         })
-    }).then((data: any) => {
-
-        if (data) {
-            id.value = idParam;
-            name.value = data[0].name;
-            surname.value = data[0].surname;
-            email.value = data[0].email;
-            phone.value = data[0].phone;
-            birthday.value = new Date(data[0].birthday).toISOString().split('T')[0];
-
-        } else {
-            console.log("No data");
-        }
-    }).catch((error) => {
-        console.log(error);
-    });
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 async function deleteUser(id: string) {
-
     if (confirm("Are you sure you want to delete this student?")) {
-        await $fetch('/api/deleteUserByID', {
+        await $fetch("/api/users/deleteUserByID", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                id: id
+                id: id,
+            }),
+        })
+            .then(async () => {
+                students.value = await me();
             })
-        }).then(async () => {
-            students.value = await me();
-        }).catch((error) => {
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
-
 </script>

@@ -96,7 +96,7 @@ _name.value = name;
 
 const getDashboardData = async () => {
 
-    return await $fetch('/api/getDashboardStats', {
+    return await $fetch('/api/users/getDashboardStats', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
     }).then((data: any) => {

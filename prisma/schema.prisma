@@ -15,8 +15,8 @@ datasource db {
 }
 
 model User {
-  id                    String    @id @default(cuid())
-  email                 String    @unique
+  id                    String     @id @default(cuid())
+  email                 String     @unique
   name                  String?
   surname               String?
   phone                 String?
@@ -26,8 +26,11 @@ model User {
   last_login_ip_address String
   current_logged_in_at  DateTime
   last_logged_in_at     DateTime
-  created_at            DateTime  @default(now())
+  created_at            DateTime   @default(now())
   role                  String
+  Messages              Messages[]
+  Courses               Courses?   @relation(fields: [coursesId], references: [id])
+  coursesId             String?
 }
 
 model Subjects {
@@ -43,4 +46,13 @@ model Courses {
   name       String?    @unique
   created_at DateTime   @default(now())
   subjects   Subjects[]
+  Users      User[]
+}
+
+model Messages {
+  id         String   @id @default(cuid())
+  text       String?
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
 }

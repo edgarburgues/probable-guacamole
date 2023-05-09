@@ -2,8 +2,27 @@ import { createJwtToken } from "~~/jwt";
 import { prisma } from "~~/db";
 import bcrypt from "bcrypt";
 
+interface CreateUserInput {
+   name: string;
+   surname: string;
+   email: string;
+   phone: string;
+   password: string;
+   salt: string;
+   last_login_ip_address: string;
+   last_logged_in_at: Date;
+   current_logged_in_at: Date;
+   birthday: Date;
+   role: string;
+   course?: {
+      connect: {
+         id: any;
+      };
+   };
+}
+
 export default defineEventHandler(async (event) => {
-   const { name, surname, email, phone, password, birthday, role } = await readBody(event);
+   const { name, surname, email, phone, password, birthday, role, coursesId } = await readBody(event);
 
    const user = await prisma.user.findUnique({
       where: {
@@ -34,7 +53,9 @@ export default defineEventHandler(async (event) => {
             last_logged_in_at: new Date(),
             current_logged_in_at: new Date(),
             birthday: new Date(birthday),
-            role: role
+            role: role,
+
+
          }
       });
 

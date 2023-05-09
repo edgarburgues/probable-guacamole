@@ -97,7 +97,7 @@ definePageMeta({
 
 const me = async () => {
     try {
-        const response = await fetch('/api/getUsersByRole', {
+        const response = await fetch('/api/users/getUsersByRole', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -137,7 +137,7 @@ const register = async () => {
 
     if (id.value !== '' && id.value !== undefined) {
         //edit user
-        await $fetch('/api/updateUserByID', {
+        await $fetch('/api/users/updateUserByID', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -185,7 +185,7 @@ const register = async () => {
 }
 
 async function editUser(idParam: string) {
-    await $fetch('/api/getUserByID', {
+    await $fetch('/api/users/getUserByID', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -212,7 +212,7 @@ async function editUser(idParam: string) {
 async function deleteUser(id: string) {
 
     if (confirm("Are you sure you want to delete this teacher?")) {
-        await $fetch('/api/deleteUserByID', {
+        await $fetch('/api/users/deleteUserByID', {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
