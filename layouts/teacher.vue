@@ -2,7 +2,7 @@
 
 
 const accountPage = () => {
-    navigateTo('account');
+    navigateTo('../account');
 }
 
 </script>

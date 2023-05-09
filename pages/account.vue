@@ -20,7 +20,6 @@
 <script setup>
 definePageMeta({
     middleware: ["auth"],
-    layout: "teacher"
 });
 
 const me = async () => {

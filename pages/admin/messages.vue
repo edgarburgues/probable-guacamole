@@ -44,14 +44,13 @@
                             <Icon name="fa6-solid:envelope-circle-check" />
                         </button>
                         <button @click="deleteMessage(message.id)"
-                            class="bg-red-500 text-white p-2 rounded-md w-12 h-11 flex items-center justify-center">
+                            class="bg-red-500 text-white p-2 rounded-md w-12 h-11 flex items-center justify-center ml-4">
                             <Icon name="fa6-solid:trash-can" />
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 

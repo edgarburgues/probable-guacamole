@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const accountPage = () => {
-    navigateTo('/account');
+    navigateTo('../account');
 }
 
 </script>
@@ -14,7 +14,7 @@ const accountPage = () => {
             <h1 class="text-2xl font-bold">Student Panel</h1>
 
             <button @click="accountPage">
-              Configuración
+                Configuración
             </button>
 
         </nav>

@@ -17,9 +17,15 @@
             </DashboardContainer>
 
             <DashboardContainer span="5" color="blue">
-                <div class="h-full flex items-center justify-between">
-                    <h1 class="text-xl font-bold drop-shadow-xl"> Courses </h1>
-                    <DashboardNotifcation>1</DashboardNotifcation>
+                <div class="h-full flex flex-col">
+                    <div class="flex w-full items-center justify-between h-1/2">
+                        <h1 class="text-xl font-bold "> Courses </h1>
+                        <DashboardNotifcation id="coursesNumber">error</DashboardNotifcation>
+                    </div>
+                    <div class="flex w-full items-center justify-between h-1/2">
+                        <h1 class="text-xl font-bold "> Subjects </h1>
+                        <DashboardNotifcation id="subjectsNumber">error</DashboardNotifcation>
+                    </div>
                 </div>
             </DashboardContainer>
             <DashboardContainer span="1" color="yellow">
@@ -31,7 +37,7 @@
             <DashboardContainer span="1" color="purple">
                 <div class="h-full flex items-center justify-between">
                     <h1 class="text-xl font-bold "> Messages </h1>
-                    <DashboardNotifcation>1</DashboardNotifcation>
+                    <DashboardNotifcation id="messagesNumber">error</DashboardNotifcation>
                 </div>
             </DashboardContainer>
             <DashboardContainer span="3" color="orange">
@@ -90,7 +96,7 @@ const me = async () => {
 
 
 
-const { user: { name } } = await me();
+const { user: { id, name } } = await me();
 const _name = ref();
 _name.value = name;
 
@@ -99,6 +105,9 @@ const getDashboardData = async () => {
     return await $fetch('/api/users/getDashboardStats', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id,
+        })
     }).then((data: any) => {
         return data;
     }).catch((error) => {
@@ -109,13 +118,20 @@ const getDashboardData = async () => {
 
 onMounted(async () => {
 
-    const { statusCode, body } = await getDashboardData();
+    const { body } = await getDashboardData();
 
     const studentsNumber = document.getElementById('studentsNumber');
     const teacherNumber = document.getElementById('teacherNumber');
+    const coursesNumber = document.getElementById('coursesNumber');
+    const subjectsNumber = document.getElementById('subjectsNumber');
+    const messagesNumber = document.getElementById('messagesNumber');
 
     studentsNumber.innerHTML = body.students;
     teacherNumber.innerHTML = body.teachers;
+    coursesNumber.innerHTML = body.courses;
+    subjectsNumber.innerHTML = body.subjects;
+    messagesNumber.innerHTML = body.messages;
+
 
 })
 
@@ -134,6 +150,12 @@ onMounted(async () => {
 //     }
 // }
 
+
+// TODO: Bulletin sync
+// TODO: Messages sync
+// TODO: Tasks sync
+// TODO: Calendar sync
+// TODO: Graphic sync
 
 </script>
 

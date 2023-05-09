@@ -28,24 +28,19 @@
                             class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="tel"
                             v-model="phone" placeholder="Phone" required />
                     </div>
-
                     <div class="mt-2">
                         <input id="birthday"
                             class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="date"
                             v-model="birthday" placeholder="Birthday" required />
                     </div>
-
                     <div class="mt-2">
                         <button
                             class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
                             type="submit">Save Teacher</button>
                     </div>
-
                 </form>
             </div>
-
             <div class="p-4 col-span-2">
-
                 <table class="">
                     <thead>
                         <tr>
@@ -81,9 +76,7 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
 </template>
 
@@ -95,27 +88,161 @@ definePageMeta({
     layout: "admin"
 });
 
+interface User {
+    id: string;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+    birthday: string;
+}
+
+const id = ref();
+const name = ref();
+const surname = ref();
+const email = ref();
+const phone = ref();
+const birthday = ref();
+const teachers = ref([]);
+
 const me = async () => {
+    const token = useCookie('token').value || "";
+
+    return await $fetch('/auth/me', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token: token
+        })
+    }).then((data: any) => {
+        return data;
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+const getUsersByRole = async () => {
     try {
-        const response = await fetch('/api/users/getUsersByRole', {
+        const response = await fetch("/api/users/getUsersByRole", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                role: "1"
-            })
+                role: "1",
+            }),
         });
         const data = await response.json();
         return data;
     } catch (error) {
         console.log(error);
     }
-};
+}
 
-const teachers = ref([]);
+const updateUser = async (id: any, name: any, surname: any, email: any, phone: any) => {
+    const response = await $fetch('/api/users/updateUserByID', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, name, surname, email, phone })
+    });
+    return response;
+}
 
-onMounted(async () => {
-    teachers.value = await me();
-});
+const createUser = async (name: any, surname: any, email: any, phone: any, birthday: any) => {
+    const response = await $fetch('/auth/register', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name,
+            surname,
+            email,
+            phone,
+            password: 'changemeImaTeacher',
+            birthday,
+            role: '1'
+        })
+    });
+    return response;
+}
+
+const register = async () => {
+    if (id.value) {
+        const response = await updateUser(id.value, name.value, surname.value, email.value, phone.value);
+        if (response) {
+            console.log(response);
+            teachers.value = await getUsersByRole();
+        } else {
+            console.log('error');
+        }
+    } else {
+        const response = await createUser(name.value, surname.value, email.value, phone.value, birthday.value);
+        if (response.success) {
+            teachers.value = await getUsersByRole();
+        } else {
+            console.log(response.error);
+        }
+    }
+}
+
+async function getUserById(id: string): Promise<User | null> {
+    try {
+        const response = await $fetch('/api/users/getUserByID', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        });
+
+        if (response) {
+            const user: User = {
+                id: id,
+                name: response[0].name,
+                surname: response[0].surname,
+                email: response[0].email,
+                phone: response[0].phone,
+                birthday: new Date(response[0].birthday).toISOString().split('T')[0]
+            };
+            return user;
+        } else {
+            console.log("No data");
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function editUser(idParam: string) {
+    const user = await getUserById(idParam);
+    if (user) {
+        id.value = user.id;
+        name.value = user.name;
+        surname.value = user.surname;
+        email.value = user.email;
+        phone.value = user.phone;
+        birthday.value = user.birthday;
+    }
+}
+async function deleteUser(id: string) {
+    const shouldDelete = confirm("Are you sure you want to delete this teacher?");
+    if (shouldDelete) {
+        try {
+            await $fetch('/api/users/deleteUserByID', {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id })
+            });
+            teachers.value = await getUsersByRole();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+// TODO: Implementar botón de 'Clear'
+
+//////////////////////////////////////////////////////////////
+////////////////////////// HELPERS //////////////////////////
+/////////////////////////////////////////////////////////////
 
 function normalizeDate(date: string) {
     const d = new Date(date);
@@ -125,107 +252,8 @@ function normalizeDate(date: string) {
     return `${da}-${mo}-${ye}`;
 }
 
-const id = ref();
-const name = ref();
-const surname = ref();
-const email = ref();
-const phone = ref();
-
-const birthday = ref();
-
-const register = async () => {
-
-    if (id.value !== '' && id.value !== undefined) {
-        //edit user
-        await $fetch('/api/users/updateUserByID', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: id.value,
-                name: name.value,
-                surname: surname.value,
-                email: email.value,
-                phone: phone.value,
-
-            })
-        }).then(async (data: any) => {
-            if (data) {
-                console.log(data);
-
-                teachers.value = await me();
-            } else {
-                console.log('error');
-            }
-        })
-
-    } else {
-        // create user
-        await $fetch('/auth/register', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: name.value,
-                surname: surname.value,
-                email: email.value,
-                phone: phone.value,
-                password: 'changemeImaTeacher',
-                birthday: birthday.value,
-                role: '1'
-            })
-        }).then(async (data: any) => {
-            if (data.success) {
-                teachers.value = await me();
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-
-}
-
-async function editUser(idParam: string) {
-    await $fetch('/api/users/getUserByID', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: idParam
-        })
-    }).then((data: any) => {
-
-        if (data) {
-            id.value = idParam;
-            name.value = data[0].name;
-            surname.value = data[0].surname;
-            email.value = data[0].email;
-            phone.value = data[0].phone;
-            birthday.value = new Date(data[0].birthday).toISOString().split('T')[0];
-
-        } else {
-            console.log("No data");
-        }
-    }).catch((error) => {
-        console.log(error);
-    });
-}
-
-async function deleteUser(id: string) {
-
-    if (confirm("Are you sure you want to delete this teacher?")) {
-        await $fetch('/api/users/deleteUserByID', {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: id
-            })
-        }).then(async () => {
-            teachers.value = await me();
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-}
-
-// TODO: Implementar botón de 'Clear'
+onMounted(async () => {
+    teachers.value = await getUsersByRole();
+});
 
 </script>

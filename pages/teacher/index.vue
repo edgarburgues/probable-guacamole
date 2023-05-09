@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-12 gap-1 h-full">
-        <Leftbar />
+        <TeacherLeftbar />
         <div class="col-span-10 bg-slate-600 flex justify-center items-center">
             <h1 class="text-2xl text-center">Welcome, <span class="font-bold">{{ user?.name }} </span></h1>
         </div>
