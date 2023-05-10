@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/tailwindcss',
     'nuxt-icon',
+
   ],
   publicRuntimeConfig: {
     JWT_TOKEN_SECRET: process.env.JWT_TOKEN_SECRET

@@ -1,23 +1,25 @@
 <template>
+    <title>My profile</title>
     <div class="grid grid-cols-12 gap-1 h-full">
-        <div class="col-span-2 h-full bg-slate-600">
+
+
+        <div class="bg-slate-800 text-slate-100">
+            <Configbar />
         </div>
-        <div class="col-span-10 h-full ">
-            <div class="flex flex-col h-full p-4 ">
-                <div class="border h-full w-full">
-                    <!-- logout button -->
-                    <div class="flex justify-end">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                            @click="logout">Logout</button>
-                    </div>
-                </div>
-            </div>
+        <div class="col-span-3 p-4">
+            <p class="text-slate-100 m-4">You are logged in as <span class="font-bold">{{ user?.email }}</span>.</p>
+
+            <button class="p-2 border w-36 rounded m-4 hover:bg-slate-500" @click="toggleColorTheme"> {{ currentTheme ===
+                'light' ? 'Dark' :
+                'Light' }} </button>
+            <button class="p-2 border w-36 rounded m-4 hover:bg-slate-500 " @click="logout">Logout</button>
         </div>
 
     </div>
 </template>
 
 <script setup>
+
 definePageMeta({
     middleware: ["auth"],
 });
@@ -54,6 +56,27 @@ const logout = async () => {
     }
 }
 
+
+
 </script>
+
+<script>
+export default {
+    computed: {
+        currentTheme() {
+            return this.$colorMode.preference;
+        },
+    },
+    methods: {
+        toggleColorTheme() {
+            const newTheme = this.currentTheme === "light" ? "dark" : "light";
+            this.$colorMode.preference = newTheme;
+        },
+    },
+
+};
+</script>
+
+
 
 
