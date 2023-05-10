@@ -31,6 +31,7 @@ model User {
   Messages              Messages[]
   Courses               Courses?   @relation(fields: [coursesId], references: [id])
   coursesId             String?
+  Todos                 Todos[]
 }
 
 model Subjects {
@@ -56,4 +57,13 @@ model Messages {
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
   from_id    String   @default("0")
+}
+
+model Todos {
+  id         String   @id @default(cuid())
+  text       String?
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  done       Boolean  @default(false)
 }

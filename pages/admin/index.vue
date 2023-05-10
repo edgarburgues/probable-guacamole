@@ -49,11 +49,31 @@
                 <div class="h-full flex flex-col">
                     <h1 class="text-xl font-bold "> Tasks </h1>
                     <div>
-                        <h1>TODO: List</h1>
-                        <ul>
-                            <li>Task 1</li>
-                            <li>Task 2</li>
-                            <li>Task 3</li>
+                        <ul class="mt-2 flex flex-col w-full">
+                            <li v-for="task in todos" class="w-full p-1">
+                                <label class="w-full grid grid-cols-9  font-bold">
+                                    <button class="text-white rounded-md" @click="deleteTask(task.id)">X</button>
+                                    <p class="col-span-8 shadow-2xl">
+                                        {{ task.text.length > 33 ? task.text.substring(0, 30) + '...' : task.text }}
+                                    </p>
+                                </label>
+                            </li>
+
+                            <li class="border-b-2">
+                                <form @submit.prevent="addTask" class="w-full flex">
+                                    <input type="text" class="w-full p-2 bg-transparent outline-none " v-model="taskText" />
+                                    <button class="text-white rounded-md py-2 px-3 ">
+                                        <Icon name="fa6-solid:arrow-right-from-bracket" />
+                                    </button>
+                                </form>
+                            </li>
+                            <div id="taskError" class="text-red-500 py-1">
+                                <p>
+                                    {{ taskErrorMsg }}
+                                </p>
+
+                            </div>
+
                         </ul>
                     </div>
                 </div>
@@ -95,14 +115,15 @@ const me = async () => {
 }
 
 
-
 const { user: { id, name } } = await me();
 const _name = ref();
 _name.value = name;
+const todos = ref();
+const taskText = ref();
+const taskErrorMsg = ref();
 
 const getDashboardData = async () => {
-
-    return await $fetch('/api/users/getDashboardStats', {
+    return await $fetch('/api/dashboard/getDashboardStats', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -113,6 +134,61 @@ const getDashboardData = async () => {
     }).catch((error) => {
         console.log(error);
     });
+}
+
+async function deleteTask(id: number) {
+    const { success } = await $fetch('/api/dashboard/deleteTask', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id,
+        })
+    }).then((data: any) => {
+        return data;
+    }).catch((error) => {
+        console.log('error', error);
+    });
+
+    if (success) {
+        const { body } = await getDashboardData();
+        todos.value = body.todos;
+    }
+}
+
+function displayError() {
+    document.getElementById('taskError').style.display = "block";
+}
+
+async function addTask() {
+    if (!taskText.value) {
+        taskErrorMsg.value = "Text is required";
+        return;
+    }
+    if (taskText.value.length < 3) {
+        taskErrorMsg.value = "Task text must be more than 3 characters";
+        return;
+    }
+
+    taskErrorMsg.value = "";
+
+    const { success } = await $fetch('/api/dashboard/addTask', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id: id,
+            text: taskText.value
+        })
+    }).then((data: any) => {
+        return data;
+    }).catch((error) => {
+        console.log('error', error);
+    });
+
+    if (success) {
+        const { body } = await getDashboardData();
+        todos.value = body.todos;
+        taskText.value = "";
+    }
 }
 
 
@@ -131,6 +207,9 @@ onMounted(async () => {
     coursesNumber.innerHTML = body.courses;
     subjectsNumber.innerHTML = body.subjects;
     messagesNumber.innerHTML = body.messages;
+
+
+    todos.value = body.todos;
 
 
 })

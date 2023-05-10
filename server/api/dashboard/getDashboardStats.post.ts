@@ -26,6 +26,12 @@ export default defineEventHandler(async (event) => {
         }
     })
 
+    const todos = await prisma.todos.findMany({
+        where: {
+            user_id: id
+        }
+    })
+
     // return students
     return {
         statusCode: 200,
@@ -34,7 +40,8 @@ export default defineEventHandler(async (event) => {
             teachers: teachers.length,
             courses: courses.length,
             subjects: subjects.length,
-            messages: messages.length
+            messages: messages.length,
+            todos: todos
         }
     }
 
