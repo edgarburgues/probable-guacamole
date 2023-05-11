@@ -1,34 +1,30 @@
 <template>
     <title>Index | Capitol Formación Profesional</title>
-    <div class="grid grid-cols-5 h-full">
-        <div class="col-span-4 flex justify-center items-center">
-            <h1 class="text-5xl font-bold">Simple Season</h1>
+    <div class="grid grid-cols-5 w-screen h-screen">
+        <div class="w-full h-full relative col-span-4">
+            <img src="../assets/bg_login.webp" class="absolute w-full h-full object-cover">
         </div>
-        <div class="bg-slate-200 dark:bg-slate-600">
-            <div class="flex flex-col justify-center items-center h-full">
+        <div class="">
+            <div class="flex flex-col justify-center items-center h-full p-6">
                 <h1 class="text-2xl font-bold">Login</h1>
-                <div class=" w-5/6">
-                    <div class="mt-2">
-                        <input id="email" class="w-full rounded p-2 text-slate-900 dark:text-slate-100" type="email"
-                            autocomplete="username" v-model="email" placeholder="Email" required />
+                <div class="w-full">
+                    <div class="">
+                        <input id="email" class="w-full rounded p-2 " type="email" autocomplete="username" v-model="email"
+                            placeholder="Email" required />
 
                     </div>
                     <div class="mt-2">
-                        <input id="password" class="w-full rounded p-2 text-slate-900 dark:text-slate-100" type="password"
-                            autocomplete="current-password" v-model="password" placeholder="Password" required />
+                        <input id="password" class="w-full rounded p-2" type="password" autocomplete="current-password"
+                            v-model="password" placeholder="Password" required />
 
                     </div>
                     <div class="mt-2">
-                        <button @click="login"
-                            class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500"
-                            type="submit">Login</button>
+                        <button @click="login" class="w-full rounded p-2 border" type="submit">Login</button>
                     </div>
                     <br />
-                    <button @click="navigateTo('/register')"
-                        class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500">
+                    <button @click="navigateTo('/register')" class="w-full rounded p-2 border">
                         Go to Register
                     </button>
-
 
 
                 </div>
@@ -40,7 +36,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-    middleware: ["not-auth"]
+    middleware: ["not-auth"],
+    // layout: "main"
 });
 
 

@@ -1,43 +1,39 @@
 <template>
     <title>Student Management | Capitol Formación Profesional</title>
-    <div class="grid grid-cols-12 gap-1">
-        <AdminLeftbar />
-        <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
+    <div class="flex min-h-full">
+        <AdminLeftbar active="students" />
+
+        <div class="flex flex-col w-full p-6 bg-gray-100">
             <div class="p-4">
-                <form @submit.prevent="register" class="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <form @submit.prevent="register" class="bg-emerald-300 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div class="mt-2">
                         <input id="id" class="hidden" type="text" v-model="id" placeholder="id" />
                     </div>
                     <div class="mt-2">
-                        <input id="name" class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100"
-                            type="text" v-model="name" placeholder="Name" required />
+                        <input id="name" class="w-full rounded p-2 text-slate-900 " type="text" v-model="name"
+                            placeholder="Name" required />
                     </div>
                     <div class="mt-2">
-                        <input id="surname"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="text"
-                            v-model="surname" placeholder="Surname" required />
+                        <input id="surname" class="w-full rounded p-2  " type="text" v-model="surname" placeholder="Surname"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="email"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="email"
-                            v-model="email" placeholder="Email" required />
+                        <input id="email" class="w-full rounded p-2 " type="email" v-model="email" placeholder="Email"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="phone"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="tel"
-                            v-model="phone" placeholder="Phone" required />
+                        <input id="phone" class="w-full rounded p-2" type="tel" v-model="phone" placeholder="Phone"
+                            required />
                     </div>
 
                     <div class="mt-2">
-                        <input id="birthday"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="date"
-                            v-model="birthday" placeholder="Birthday" required />
+                        <input id="birthday" class="w-full rounded p-2" type="date" v-model="birthday"
+                            placeholder="Birthday" required />
                     </div>
 
                     <div class="mt-2">
-                        <select id="course_id" v-model="idCourseSubject"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100"
-                            placeholder="Course" required>
+                        <select id="course_id" v-model="idCourseSubject" class="w-full rounded p-2 " placeholder="Course"
+                            required>
                             <option value="" disabled selected>Select a course</option>
                             <option v-for="course in courses" :key="course.id" :value="course.id">
                                 {{ course.name }} - {{ course.id }}
@@ -46,19 +42,17 @@
                     </div>
 
                     <div class="mt-2">
-                        <button
-                            class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                            type="submit">
+                        <button class="w-full rounded p-2" type="submit">
                             Save student
                         </button>
                     </div>
                 </form>
             </div>
 
-            <div class="p-4 col-span-2">
-                <table class="">
-                    <thead>
-                        <tr>
+            <div class="p-4">
+                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                    <thead class="bg-emerald-500 rounded-t-xl">
+                        <tr class="flex justify-between">
                             <th class="px-4 py-2 hidden">ID</th>
                             <th class="px-4 py-2">Name</th>
                             <th class="px-4 py-2">Surname</th>
@@ -70,8 +64,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(student, index) in students" :key="student.id"
-                            :class="index % 2 === 0 ? 'bg-slate-700' : 'bg-slate-600'" class="hover:bg-slate-900">
+                        <tr v-for="(student, index) in students" :key="student.id" class=" flex justify-between"
+                            :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class="px-4 py-2 hidden">{{ student.id }}</td>
                             <td class="px-4 py-2">{{ student.name }}</td>
                             <td class="px-4 py-2">{{ student.surname }}</td>
@@ -106,7 +100,7 @@
 <script setup lang="ts">
 definePageMeta({
     middleware: ["auth"],
-    layout: "admin",
+    // layout: "admin",
 });
 
 const me = async () => {

@@ -1,49 +1,45 @@
 <template>
     <title>Teacher Management | Capitol Formación Profesional </title>
-    <div class="grid grid-cols-12 gap-1 ">
-        <AdminLeftbar />
-        <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
+    <div class="flex min-h-full">
+        <AdminLeftbar active="teachers" />
+
+        <div class="flex flex-col w-full p-6 bg-gray-100">
             <div class="p-4">
-                <form @submit.prevent="register" class="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <form @submit.prevent="register" class="bg-emerald-300 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div class="mt-2">
                         <input id="id" class="hidden" type="text" v-model="id" placeholder="id" />
                     </div>
                     <div class="mt-2">
-                        <input id="name"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="text"
-                            v-model="name" placeholder="Name" required />
+                        <input id="name" class="w-full rounded p-2" type="text" v-model="name" placeholder="Name"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="surname"
-                            class="w-full rounded p-2 text-slate-900 placeholder-slate-100 dark:text-slate-100" type="text"
-                            v-model="surname" placeholder="Surname" required />
+                        <input id="surname" class="w-full rounded p-2" type="text" v-model="surname" placeholder="Surname"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="email"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100"
-                            type="email" v-model="email" placeholder="Email" required />
+                        <input id="email" class="w-full rounded p-2" type="email" v-model="email" placeholder="Email"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="phone"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="tel"
-                            v-model="phone" placeholder="Phone" required />
+                        <input id="phone" class="w-full rounded p-2" type="tel" v-model="phone" placeholder="Phone"
+                            required />
                     </div>
                     <div class="mt-2">
-                        <input id="birthday"
-                            class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100" type="date"
-                            v-model="birthday" placeholder="Birthday" required />
+                        <input id="birthday" class="w-full rounded p-2" type="date" v-model="birthday"
+                            placeholder="Birthday" required />
                     </div>
                     <div class="mt-2">
-                        <button
-                            class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                            type="submit">Save Teacher</button>
+                        <button class="w-full rounded p-2 " type="submit">
+                            Save Teacher
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="p-4 col-span-2">
-                <table class="">
-                    <thead>
-                        <tr>
+            <div class="p-4">
+                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                    <thead class="bg-emerald-500 rounded-t-xl">
+                        <tr class="flex justify-between">
                             <th class="px-4 py-2 hidden">ID</th>
                             <th class="px-4 py-2">Name</th>
                             <th class="px-4 py-2">Surname</th>
@@ -54,8 +50,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(teacher, index) in teachers" :key="teacher.id"
-                            :class="index % 2 === 0 ? 'bg-slate-700' : 'bg-slate-600'" class="hover:bg-slate-900">
+                        <tr v-for="(teacher, index) in teachers" :key="teacher.id" class=" flex justify-between"
+                            :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class="px-4 py-2 hidden">{{ teacher.id }}</td>
                             <td class="px-4 py-2">{{ teacher.name }}</td>
                             <td class="px-4 py-2">{{ teacher.surname }}</td>
@@ -63,11 +59,11 @@
                             <td class="px-4 py-2">{{ teacher.phone }}</td>
                             <td class="px-4 py-2">{{ normalizeDate(teacher.birthday) }}</td>
                             <td class="grid gap-2 grid-cols-2 p-2">
-                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(teacher.id)">
                                     <Icon name="fa6-solid:pencil" />
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteUser(teacher.id)">
                                     <Icon name="fa6-solid:trash-can" />
                                 </button>
@@ -85,7 +81,7 @@
 
 definePageMeta({
     middleware: ["auth"],
-    layout: "admin"
+    // layout: "admin"
 });
 
 interface User {

@@ -1,68 +1,68 @@
 <template>
     <title>Student Management | Capitol Formación Profesional </title>
-    <div class="grid grid-cols-12 gap-1 ">
-        <AdminLeftbar />
-        <div class="col-span-10 bg-slate-600 grid grid-cols-3 p-2 gap-2">
-            <div class="p-4">
-                <form @submit.prevent="createCourse"
-                    class="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+    <div class="flex min-h-full">
+        <AdminLeftbar active="courses" />
+
+        <div class="flex flex-col w-full p-6 bg-gray-100">
+
+
+
+            <div class="p-4 grid grid-cols-2 gap-3">
+                <form @submit.prevent="createCourse" class=" shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-green-300">
 
                     <input class="hidden" type="text" v-model="idCourse" placeholder="id" />
                     <div class="mt-2">
-                        <input class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100"
-                            type="text" v-model="nameCourse" placeholder="Name" required />
+                        <input class="w-full rounded p-2 " type="text" v-model="nameCourse" placeholder="Name" required />
                     </div>
-                    <button
-                        class="mt-4 w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                        type="submit">Save course</button>
-
+                    <button class="mt-4 w-full rounded p-2 " type="submit">Save
+                        course</button>
                 </form>
 
 
-                <form @submit.prevent="createSubject"
-                    class="bg-white dark:bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <form @submit.prevent="createSubject" class=" shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-green-300">
 
                     <Input class="hidden" type="text" v-model="idSubject" placeholder="id" />
 
                     <div class="mt-2">
-                        <input class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100"
-                            type="text" v-model="nameSubject" placeholder="Name" required />
+                        <input class="w-full rounded p-2 " type="text" v-model="nameSubject" placeholder="Name" required />
                     </div>
 
-
                     <div class="mt-2">
-                        <select class="w-full rounded p-2 text-slate-900  placeholder-slate-100 dark:text-slate-100"
-                            v-model="idCourseSubject" required>
+                        <select class="w-full rounded p-2   " v-model="idCourseSubject" required>
                             <option value="" disabled selected>Select a course</option>
                             <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.name }}</option>
                         </select>
                     </div>
 
-                    <button
-                        class="mt-4 w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-slate-100"
-                        type="submit">Save subject</button>
+                    <button class="mt-4 w-full rounded p-2 " type="submit">
+                        Save subject
+                    </button>
 
                 </form>
 
             </div>
 
-            <div class="p-4">
-                <table class="table-auto w-full">
-                    <thead>
-                        <tr>
+
+
+            <div class="p-4 grid grid-cols-2 gap-3">
+                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                    <thead class="bg-emerald-500 rounded-t-xl">
+                        <tr class="flex justify-between">
                             <th class="px-4 py-2">Name</th>
                             <th class="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="course in courses" :key="course.id">
+                    <tbody class="">
+                        <tr v-for="(course, index) in courses" :key="course.id" class=" flex justify-between"
+                            :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class="px-4 py-2">{{ course.name }}</td>
                             <td class="grid gap-2 grid-cols-2 p-2">
-                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editCourse(course.id)">
                                     <Icon name="fa6-solid:pencil" />
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteCourse(course.id)">
                                     <Icon name="fa6-solid:trash-can" />
                                 </button>
@@ -70,20 +70,19 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
 
-            <div class="p-4">
-                <table class="table-auto w-full">
-                    <thead>
-                        <tr>
+                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                    <thead class="bg-emerald-500 rounded-t-xl">
+                        <tr class="flex justify-between">
                             <th class="px-4 py-2">Name</th>
                             <th class="px-4 py-2">Course</th>
                             <th class="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="subject in subjects" :key="subject.id">
-                            <td class="px-4 py-2">{{ subject.name }}</td>
+                        <tr v-for="(subject, index) in subjects" :key="subject.id" class="flex w-full justify-between"
+                            :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
+                            <td class=" px-4 py-2">{{ subject.name }}</td>
                             <td class="px-4 py-2">
                                 <template v-for="course in courses">
                                     <template v-if="course.id == subject.course_id">
@@ -92,11 +91,11 @@
                                 </template>
                             </td>
                             <td class="grid gap-2 grid-cols-2 p-2">
-                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editSubject(subject.body.id)">
                                     <Icon name="fa6-solid:pencil" />
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteSubject(subject.id)">
                                     <Icon name="fa6-solid:trash-can" />
                                 </button>
@@ -118,7 +117,7 @@
 
 definePageMeta({
     middleware: ["auth"],
-    layout: "admin"
+
 });
 var subjects = ref([]);
 const courses = ref([]);

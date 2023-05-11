@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     'nuxt-icon',
 
   ],
-  publicRuntimeConfig: {
+
+  runtimeConfig: {
     JWT_TOKEN_SECRET: process.env.JWT_TOKEN_SECRET
   }
 })

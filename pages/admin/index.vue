@@ -1,51 +1,55 @@
 <template>
     <title>Dashboard | Capitol Formación Profesional</title>
-    <div class="grid grid-cols-12 gap-1 grow items-stretch ">
-        <AdminLeftbar />
-        <div class="col-span-10 grid grid-cols-4 gap-2 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-600 p-6">
-            <DashboardContainer span="1" color="red">
-                <div class="h-full flex flex-col">
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Teachers </h1>
-                        <DashboardNotifcation id="teacherNumber">error</DashboardNotifcation>
-                    </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Students </h1>
-                        <DashboardNotifcation id="studentsNumber">error</DashboardNotifcation>
-                    </div>
-                </div>
-            </DashboardContainer>
+    <div class="flex min-h-full">
+        <AdminLeftbar active="dashboard" />
 
-            <DashboardContainer span="5" color="blue">
-                <div class="h-full flex flex-col">
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Courses </h1>
-                        <DashboardNotifcation id="coursesNumber">error</DashboardNotifcation>
+        <div class="flex flex-col w-full p-6 bg-gray-100">
+            <div class="grid grid-cols-4 gap-3 pb-3">
+                <DashboardContainer class="bg-red-300 ">
+                    <div class="h-full flex flex-col">
+                        <div class="flex w-full items-center justify-between h-1/2 ">
+                            <h1 class="text-xl font-bold  "> Teachers </h1>
+                            <DashboardNotifcation id="teacherNumber"></DashboardNotifcation>
+                        </div>
+                        <div class="flex w-full items-center justify-between h-1/2">
+                            <h1 class="text-xl font-bold "> Students </h1>
+                            <DashboardNotifcation id="studentsNumber"></DashboardNotifcation>
+                        </div>
                     </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Subjects </h1>
-                        <DashboardNotifcation id="subjectsNumber">error</DashboardNotifcation>
+                </DashboardContainer>
+
+                <DashboardContainer class="bg-blue-300">
+                    <div class="h-full flex flex-col">
+                        <div class="flex w-full items-center justify-between h-1/2">
+                            <h1 class="text-xl font-bold "> Courses </h1>
+                            <DashboardNotifcation id="coursesNumber"></DashboardNotifcation>
+                        </div>
+                        <div class="flex w-full items-center justify-between h-1/2">
+                            <h1 class="text-xl font-bold "> Subjects </h1>
+                            <DashboardNotifcation id="subjectsNumber"></DashboardNotifcation>
+                        </div>
                     </div>
-                </div>
-            </DashboardContainer>
-            <DashboardContainer span="1" color="yellow">
-                <div class="h-full flex items-center justify-between">
-                    <h1 class="text-xl font-bold "> Bulletin </h1>
-                    <DashboardNotifcation>1</DashboardNotifcation>
-                </div>
-            </DashboardContainer>
-            <DashboardContainer span="1" color="purple">
-                <div class="h-full flex items-center justify-between">
-                    <h1 class="text-xl font-bold "> Messages </h1>
-                    <DashboardNotifcation id="messagesNumber">error</DashboardNotifcation>
-                </div>
-            </DashboardContainer>
-            <DashboardContainer span="3" color="orange">
+                </DashboardContainer>
+                <DashboardContainer class=" bg-yellow-300 ">
+                    <div class="h-full flex items-center justify-between">
+                        <h1 class="text-xl font-bold "> Bulletin </h1>
+                        <DashboardNotifcation id="bulletinNumber"></DashboardNotifcation>
+                    </div>
+                </DashboardContainer>
+                <DashboardContainer class="bg-purple-300">
+                    <div class="h-full flex items-center justify-between">
+                        <h1 class="text-xl font-bold "> Messages </h1>
+                        <DashboardNotifcation id="messagesNumber"></DashboardNotifcation>
+                    </div>
+                </DashboardContainer>
+            </div>
+
+            <DashboardContainer class="bg-orange-300 h-80">
                 <div class="h-full flex flex-col">
                     <h1 class="text-xl font-bold "> Graphic </h1>
                 </div>
             </DashboardContainer>
-            <DashboardContainer span="1" color="green">
+            <DashboardContainer class="bg-green-300 mt-3">
                 <div class="h-full flex flex-col">
                     <h1 class="text-xl font-bold "> Tasks </h1>
                     <div>
@@ -78,14 +82,14 @@
                     </div>
                 </div>
             </DashboardContainer>
-            <DashboardContainer span="2" color="violet">
+            <DashboardContainer class="bg-violet-300 mt-3 h-80">
                 <div class="h-full flex flex-col">
                     <h1 class="text-xl font-bold "> Calendar </h1>
-
                 </div>
             </DashboardContainer>
-
         </div>
+
+
 
     </div>
 </template>
@@ -94,7 +98,7 @@
 
 definePageMeta({
     middleware: ["auth"],
-    layout: "admin"
+    // layout: "admin"
 });
 
 
@@ -202,6 +206,7 @@ onMounted(async () => {
     const coursesNumber = document.getElementById('coursesNumber');
     const subjectsNumber = document.getElementById('subjectsNumber');
     const messagesNumber = document.getElementById('messagesNumber');
+    const bulletinNumber = document.getElementById('bulletinNumber');
 
     studentsNumber.innerHTML = body.students;
     teacherNumber.innerHTML = body.teachers;

@@ -31,3 +31,9 @@ Este sistema es una herramienta valiosa para cualquier institución educativa qu
 ## Bugs conocidos
 
 - Al actualizar el cumpleaños de un estudiante o profesor el campo de fecha de nacimiento no se actualiza
+
+##
+
+- ChartJS : Todos los datos acumulados
+- DataTable
+- JWT
