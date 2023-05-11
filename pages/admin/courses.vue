@@ -4,7 +4,7 @@
     <div class="flex min-h-full">
         <AdminLeftbar active="courses" />
 
-        <div class="flex flex-col w-full p-6 bg-gray-100">
+        <div class="flex flex-col w-full bg-gray-100">
 
 
 
@@ -46,7 +46,7 @@
 
 
             <div class="p-4 grid grid-cols-2 gap-3">
-                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                <table class="rounded-xl flex flex-col shadow-xl">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
                             <th class="px-4 py-2">Name</th>
@@ -68,10 +68,11 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
                     </tbody>
                 </table>
 
-                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                <table class="rounded-xl  flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
                             <th class="px-4 py-2">Name</th>
@@ -101,6 +102,9 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
+
+
                     </tbody>
                 </table>
             </div>

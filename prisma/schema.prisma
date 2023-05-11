@@ -32,6 +32,7 @@ model User {
   Courses               Courses?   @relation(fields: [coursesId], references: [id])
   coursesId             String?
   Todos                 Todos[]
+  Events                Events[]
 }
 
 model Subjects {
@@ -65,5 +66,17 @@ model Todos {
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
+  done       Boolean  @default(false)
+}
+
+model Events {
+  id         String   @id @default(cuid())
+  title      String?
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  from_date  DateTime
+  to_date    DateTime
+  all_day    Boolean  @default(false)
   done       Boolean  @default(false)
 }

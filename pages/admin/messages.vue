@@ -24,7 +24,7 @@
             </div>
 
             <div class="p-4">
-                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                <table class="rounded-xl bg-emerald-400 flex flex-col">
 
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
@@ -38,16 +38,16 @@
                     <tbody>
                         <tr v-for="(message, index) in messages" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class="px-4 py-2 w-28">
+                            <td class="flex items-center px-4 py-2 w-28">
                                 <template v-for="user in users">
                                     <template v-if="user.id == message.from_id">
                                         {{ user.name }}
                                     </template>
                                 </template>
                             </td>
-                            <td class="px-4 py-2">{{ normalizeDate(message.created_at) }}</td>
-                            <td class="px-4 py-2 w-3/5">{{ message.text }}</td>
-                            <td class="grid gap-2 grid-cols-2 p-2">
+                            <td class="flex items-center px-4 py-2">{{ normalizeDate(message.created_at) }}</td>
+                            <td class="flex items-center px-4 py-2 w-3/5">{{ message.text }}</td>
+                            <td class="items-center grid gap-2 grid-cols-2 p-2">
                                 <button @click="markAsRead(message.id)"
                                     class="bg-green-500 hover:bg-green-700 font-bold rounded h-11 w-12">
                                     <Icon name="fa6-solid:envelope-circle-check" />
@@ -58,6 +58,7 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
                     </tbody>
 
                 </table>

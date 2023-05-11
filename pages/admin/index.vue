@@ -3,94 +3,98 @@
     <div class="flex min-h-full">
         <AdminLeftbar active="dashboard" />
 
-        <div class="flex flex-col w-full p-6 bg-gray-100">
-            <div class="grid grid-cols-4 gap-3 pb-3">
-                <DashboardContainer class="bg-red-300 ">
-                    <div class="h-full flex flex-col">
-                        <div class="flex w-full items-center justify-between h-1/2 ">
-                            <h1 class="text-xl font-bold  "> Teachers </h1>
-                            <DashboardNotifcation id="teacherNumber"></DashboardNotifcation>
-                        </div>
-                        <div class="flex w-full items-center justify-between h-1/2">
-                            <h1 class="text-xl font-bold "> Students </h1>
-                            <DashboardNotifcation id="studentsNumber"></DashboardNotifcation>
-                        </div>
-                    </div>
-                </DashboardContainer>
 
-                <DashboardContainer class="bg-blue-300">
-                    <div class="h-full flex flex-col">
-                        <div class="flex w-full items-center justify-between h-1/2">
-                            <h1 class="text-xl font-bold "> Courses </h1>
-                            <DashboardNotifcation id="coursesNumber"></DashboardNotifcation>
-                        </div>
-                        <div class="flex w-full items-center justify-between h-1/2">
-                            <h1 class="text-xl font-bold "> Subjects </h1>
-                            <DashboardNotifcation id="subjectsNumber"></DashboardNotifcation>
-                        </div>
+
+        <div class="flex flex-col w-full p-6 bg-gray-100">
+            <DashboardContainer class="bg-emerald-300 mb-3">
+                <div class="h-full flex flex-col">
+                    <h1 class="text-2xl font-bold "> Welcome {{ _name }} </h1>
+                    <p class="mt-2">
+                        Quote of the day
+                    </p>
+                </div>
+            </DashboardContainer>
+
+            <!--
+            <DashboardContainer class="bg-red-300 ">
+                <h1 class="text-2xl font-bold "> Notifications </h1>
+                <br />
+                <div class="flex">
+                    <div class="flex w-full items-center justify-between h-1/2 ">
+                        <h1 class="text-xl font-bold  "> Teachers </h1>
+                        <DashboardNotifcation id="teacherNumber"></DashboardNotifcation>
                     </div>
-                </DashboardContainer>
-                <DashboardContainer class=" bg-yellow-300 ">
-                    <div class="h-full flex items-center justify-between">
+                    <div class="flex w-full items-center justify-between h-1/2">
+                        <h1 class="text-xl font-bold "> Students </h1>
+                        <DashboardNotifcation id="studentsNumber"></DashboardNotifcation>
+                    </div>
+
+                    <div class="flex w-full items-center justify-between h-1/2">
+                        <h1 class="text-xl font-bold "> Courses </h1>
+                        <DashboardNotifcation id="coursesNumber"></DashboardNotifcation>
+                    </div>
+                    <div class="flex w-full items-center justify-between h-1/2">
+                        <h1 class="text-xl font-bold "> Subjects </h1>
+                        <DashboardNotifcation id="subjectsNumber"></DashboardNotifcation>
+                    </div>
+                    <div class="flex w-full items-center justify-between h-1/2">
                         <h1 class="text-xl font-bold "> Bulletin </h1>
                         <DashboardNotifcation id="bulletinNumber"></DashboardNotifcation>
                     </div>
-                </DashboardContainer>
-                <DashboardContainer class="bg-purple-300">
-                    <div class="h-full flex items-center justify-between">
+                    <div class="flex w-full items-center justify-between h-1/2">
                         <h1 class="text-xl font-bold "> Messages </h1>
                         <DashboardNotifcation id="messagesNumber"></DashboardNotifcation>
                     </div>
-                </DashboardContainer>
-            </div>
-
-            <DashboardContainer class="bg-orange-300 h-80">
-                <div class="h-full flex flex-col">
-                    <h1 class="text-xl font-bold "> Graphic </h1>
                 </div>
+
             </DashboardContainer>
-            <DashboardContainer class="bg-green-300 mt-3">
-                <div class="h-full flex flex-col">
-                    <h1 class="text-xl font-bold "> Tasks </h1>
+            -->
+
+            <div class="flex mt-3 gap-3">
+                <DashboardContainer class="bg-blue-400 h-full w-full relative">
                     <div>
-                        <ul class="mt-2 flex flex-col w-full">
-                            <li v-for="task in todos" class="w-full p-1">
-                                <label class="w-full grid grid-cols-9  font-bold">
-                                    <button class="text-white rounded-md" @click="deleteTask(task.id)">X</button>
-                                    <p class="col-span-8 shadow-2xl">
-                                        {{ task.text.length > 33 ? task.text.substring(0, 30) + '...' : task.text }}
-                                    </p>
-                                </label>
-                            </li>
-
-                            <li class="border-b-2">
-                                <form @submit.prevent="addTask" class="w-full flex">
-                                    <input type="text" class="w-full p-2 bg-transparent outline-none " v-model="taskText" />
-                                    <button class="text-white rounded-md py-2 px-3 ">
-                                        <Icon name="fa6-solid:arrow-right-from-bracket" />
-                                    </button>
-                                </form>
-                            </li>
-                            <div id="taskError" class="text-red-500 py-1">
-                                <p>
-                                    {{ taskErrorMsg }}
-                                </p>
-
-                            </div>
-
-                        </ul>
+                        <DashboardCalendar />
                     </div>
-                </div>
-            </DashboardContainer>
-            <DashboardContainer class="bg-violet-300 mt-3 h-80">
-                <div class="h-full flex flex-col">
-                    <h1 class="text-xl font-bold "> Calendar </h1>
-                </div>
-            </DashboardContainer>
+                </DashboardContainer>
+
+
+                <DashboardContainer class="bg-green-300 h-fit w-96">
+                    <div class="flex flex-col">
+                        <h1 class="text-xl font-bold "> Tasks </h1>
+                        <div>
+                            <ul class="flex flex-col w-full">
+                                <li v-for="task in todos" class="w-full p-1">
+                                    <label class="w-full grid grid-cols-9  font-bold">
+                                        <button class="text-white rounded-md" @click="deleteTask(task.id)">X</button>
+                                        <p class="col-span-8 shadow-2xl">
+                                            {{ task.text.length > 33 ? task.text.substring(0, 30) + '...' : task.text }}
+                                        </p>
+                                    </label>
+                                </li>
+
+                                <li class="border-b-2">
+                                    <form @submit.prevent="addTask" class="w-full flex">
+                                        <input type="text" class="w-full p-2 bg-transparent outline-none "
+                                            v-model="taskText" />
+                                        <button class="text-white rounded-md py-2 px-3 ">
+                                            <Icon name="fa6-solid:arrow-right-from-bracket" />
+                                        </button>
+                                    </form>
+                                </li>
+                                <div id="taskError" class="text-red-500 py-1">
+                                    <p>
+                                        {{ taskErrorMsg }}
+                                    </p>
+
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </DashboardContainer>
+
+            </div>
         </div>
-
-
-
     </div>
 </template>
 
@@ -201,18 +205,18 @@ onMounted(async () => {
 
     const { body } = await getDashboardData();
 
-    const studentsNumber = document.getElementById('studentsNumber');
-    const teacherNumber = document.getElementById('teacherNumber');
-    const coursesNumber = document.getElementById('coursesNumber');
-    const subjectsNumber = document.getElementById('subjectsNumber');
-    const messagesNumber = document.getElementById('messagesNumber');
-    const bulletinNumber = document.getElementById('bulletinNumber');
-
-    studentsNumber.innerHTML = body.students;
-    teacherNumber.innerHTML = body.teachers;
-    coursesNumber.innerHTML = body.courses;
-    subjectsNumber.innerHTML = body.subjects;
-    messagesNumber.innerHTML = body.messages;
+    // const studentsNumber = document.getElementById('studentsNumber');
+    // const teacherNumber = document.getElementById('teacherNumber');
+    // const coursesNumber = document.getElementById('coursesNumber');
+    // const subjectsNumber = document.getElementById('subjectsNumber');
+    // const messagesNumber = document.getElementById('messagesNumber');
+    // const bulletinNumber = document.getElementById('bulletinNumber');
+    // 
+    // studentsNumber.innerHTML = body.students;
+    // teacherNumber.innerHTML = body.teachers;
+    // coursesNumber.innerHTML = body.courses;
+    // subjectsNumber.innerHTML = body.subjects;
+    // messagesNumber.innerHTML = body.messages;
 
 
     todos.value = body.todos;

@@ -32,6 +32,8 @@ export default defineEventHandler(async (event) => {
         }
     })
 
+
+
     // return students
     return {
         statusCode: 200,

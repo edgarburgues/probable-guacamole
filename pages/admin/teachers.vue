@@ -37,7 +37,7 @@
                 </form>
             </div>
             <div class="p-4">
-                <table class="rounded-xl bg-emerald-400 p-4 flex flex-col">
+                <table class="rounded-xl bg-emerald-400 flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
                             <th class="px-4 py-2 hidden">ID</th>
@@ -52,13 +52,13 @@
                     <tbody>
                         <tr v-for="(teacher, index) in teachers" :key="teacher.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class="px-4 py-2 hidden">{{ teacher.id }}</td>
-                            <td class="px-4 py-2">{{ teacher.name }}</td>
-                            <td class="px-4 py-2">{{ teacher.surname }}</td>
-                            <td class="px-4 py-2">{{ teacher.email }}</td>
-                            <td class="px-4 py-2">{{ teacher.phone }}</td>
-                            <td class="px-4 py-2">{{ normalizeDate(teacher.birthday) }}</td>
-                            <td class="grid gap-2 grid-cols-2 p-2">
+                            <td class=" px-4 py-2 hidden">{{ teacher.id }}</td>
+                            <td class="flex items-center px-4 py-2">{{ teacher.name }}</td>
+                            <td class="flex items-center px-4 py-2">{{ teacher.surname }}</td>
+                            <td class="flex items-center px-4 py-2">{{ teacher.email }}</td>
+                            <td class="flex items-center px-4 py-2">{{ teacher.phone }}</td>
+                            <td class="flex items-center px-4 py-2">{{ normalizeDate(teacher.birthday) }}</td>
+                            <td class="flex items-center grid gap-2 grid-cols-2 p-2">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(teacher.id)">
                                     <Icon name="fa6-solid:pencil" />
@@ -69,6 +69,7 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
                     </tbody>
                 </table>
             </div>
