@@ -6,17 +6,16 @@
 
         <div class="flex flex-col w-full bg-gray-100">
 
-
-
             <div class="p-4 grid grid-cols-2 gap-3">
                 <form @submit.prevent="createCourse" class=" shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-green-300">
 
                     <input class="hidden" type="text" v-model="idCourse" placeholder="id" />
                     <div class="mt-2">
-                        <input class="w-full rounded p-2 " type="text" v-model="nameCourse" placeholder="Name" required />
+                        <input class="w-full rounded p-2 " type="text" v-model="nameCourse" placeholder="Nombre" required />
                     </div>
-                    <button class="mt-4 w-full rounded p-2 " type="submit">Save
-                        course</button>
+                    <button class="mt-4 w-full rounded p-2 bg-emerald-500 font-semibold" type="submit">
+                        Crear curso
+                    </button>
                 </form>
 
 
@@ -25,18 +24,19 @@
                     <Input class="hidden" type="text" v-model="idSubject" placeholder="id" />
 
                     <div class="mt-2">
-                        <input class="w-full rounded p-2 " type="text" v-model="nameSubject" placeholder="Name" required />
+                        <input class="w-full rounded p-2 " type="text" v-model="nameSubject" placeholder="Nombre"
+                            required />
                     </div>
 
                     <div class="mt-2">
                         <select class="w-full rounded p-2   " v-model="idCourseSubject" required>
-                            <option value="" disabled selected>Select a course</option>
+                            <option value="" disabled selected>Selecciona un curso</option>
                             <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.name }}</option>
                         </select>
                     </div>
 
-                    <button class="mt-4 w-full rounded p-2 " type="submit">
-                        Save subject
+                    <button class="mt-4 w-full rounded p-2 bg-emerald-500 font-semibold" type="submit">
+                        Crear asignatura
                     </button>
 
                 </form>
@@ -49,8 +49,8 @@
                 <table class="rounded-xl flex flex-col shadow-xl">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="">
@@ -75,9 +75,9 @@
                 <table class="rounded-xl  flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Course</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Curso</th>
+                            <th class="px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

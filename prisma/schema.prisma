@@ -15,68 +15,97 @@ datasource db {
 }
 
 model User {
-  id                    String     @id @default(cuid())
-  email                 String     @unique
-  name                  String?
-  surname               String?
-  phone                 String?
-  password              String
-  birthday              DateTime?
-  salt                  String
-  last_login_ip_address String
-  current_logged_in_at  DateTime
-  last_logged_in_at     DateTime
-  created_at            DateTime   @default(now())
-  role                  String
-  Messages              Messages[]
-  Courses               Courses?   @relation(fields: [coursesId], references: [id])
-  coursesId             String?
-  Todos                 Todos[]
-  Events                Events[]
+  id              String       @id @default(cuid())
+  email           String       @unique
+  name            String?
+  surname         String?
+  phone           String?
+  password        String
+  birthday        DateTime?
+  role            String
+  sex             String
+  student_courses Courses[]    @relation("UserCourses")
+  teacher_courses Usercourse[]
+  Messages        Messages[]
+  Absences        Absences[]
+  Todos           Todos[]
+  Events          Events[]
+  salt            String
 }
 
 model Subjects {
-  id         String   @id @default(cuid())
+  id         String       @id @default(cuid())
   name       String?
-  created_at DateTime @default(now())
-  course     Courses  @relation(fields: [course_id], references: [id])
+  course     Courses      @relation(fields: [course_id], references: [id])
   course_id  String
+  Activities Activities[]
+  Absences   Absences[]
 }
 
 model Courses {
-  id         String     @id @unique @default(cuid())
-  name       String?    @unique
-  created_at DateTime   @default(now())
-  subjects   Subjects[]
-  Users      User[]
+  id       String       @id @unique @default(cuid())
+  name     String?      @unique
+  subjects Subjects[]
+  users    User[]       @relation("UserCourses")
+  teachers Usercourse[]
 }
 
 model Messages {
   id         String   @id @default(cuid())
   text       String?
-  created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
   from_id    String   @default("0")
+  created_at DateTime @default(now())
 }
 
 model Todos {
-  id         String   @id @default(cuid())
-  text       String?
-  created_at DateTime @default(now())
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String
-  done       Boolean  @default(false)
+  id      String  @id @default(cuid())
+  text    String?
+  user    User    @relation(fields: [user_id], references: [id])
+  user_id String
+  done    Boolean @default(false)
 }
 
 model Events {
+  id        String   @id @default(cuid())
+  title     String?
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   String
+  from_date DateTime
+  to_date   DateTime
+  all_day   Boolean  @default(false)
+  done      Boolean  @default(false)
+}
+
+model Absences {
   id         String   @id @default(cuid())
-  title      String?
-  created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
-  from_date  DateTime
-  to_date    DateTime
-  all_day    Boolean  @default(false)
+  date       DateTime
+  from_hour  DateTime
+  to_hour    DateTime
+  justified  Boolean  @default(false)
+  state      String   @default("Pendiente")
+  subject    Subjects @relation(fields: [subject_id], references: [id])
+  subject_id String
+}
+
+model Activities {
+  id         String   @id @default(cuid())
+  name       String?
+  subject    Subjects @relation(fields: [subject_id], references: [id])
+  subject_id String
+  limit_date DateTime
   done       Boolean  @default(false)
+  state      String   @default("Pendiente")
+  created_at DateTime @default(now())
+}
+
+model Usercourse {
+  id        String  @id @default(cuid())
+  user      User    @relation(fields: [user_id], references: [id])
+  user_id   String
+  course    Courses @relation(fields: [course_id], references: [id])
+  course_id String
 }

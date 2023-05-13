@@ -8,9 +8,9 @@
         <div class="flex flex-col w-full p-6 bg-gray-100">
             <DashboardContainer class="bg-emerald-300 mb-3">
                 <div class="h-full flex flex-col">
-                    <h1 class="text-2xl font-bold "> Welcome {{ _name }} </h1>
+                    <h1 class="text-2xl font-bold "> Bienvenid@ {{ _name }} </h1>
                     <p class="mt-2">
-                        Quote of the day
+                        Frase del día
                     </p>
                 </div>
             </DashboardContainer>

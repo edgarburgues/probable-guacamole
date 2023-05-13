@@ -5,36 +5,65 @@
 
         <div class="flex flex-col w-full p-6 bg-gray-100">
             <div class="p-4">
-                <form @submit.prevent="register" class="bg-emerald-300 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <div class="mt-2">
-                        <input id="id" class="hidden" type="text" v-model="id" placeholder="id" />
-                    </div>
-                    <div class="mt-2">
-                        <input id="name" class="w-full rounded p-2" type="text" v-model="name" placeholder="Name"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="surname" class="w-full rounded p-2" type="text" v-model="surname" placeholder="Surname"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="email" class="w-full rounded p-2" type="email" v-model="email" placeholder="Email"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="phone" class="w-full rounded p-2" type="tel" v-model="phone" placeholder="Phone"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="birthday" class="w-full rounded p-2" type="date" v-model="birthday"
-                            placeholder="Birthday" required />
-                    </div>
-                    <div class="mt-2">
-                        <button class="w-full rounded p-2 " type="submit">
-                            Save Teacher
-                        </button>
-                    </div>
-                </form>
+
+                <div class="flex">
+                    <button @click="displayForm" class="bg-green-500 rounded-xl w-24 mr-3 font-semibold">Nuevo</button>
+                    <input @keyup="searchTeacher" id="searchText" type="text" placeholder="Buscar profesor"
+                        class=" w-full p-2 rounded-xl pl-3">
+                </div>
+
+                <div id="newTeacherForm">
+                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-md rounded my-3 p-4">
+                        <div class="flex gap-3">
+                            <div class="w-full">
+                                <div class="mt-2">
+                                    <input class="hidden" type="text" v-model="id" />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="text" v-model="name"
+                                        placeholder="Nombre" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="text" v-model="surname"
+                                        placeholder="Apellidos" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="email" v-model="email"
+                                        placeholder="Correo electrónico" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="password" v-model="password"
+                                        placeholder="Contraseña" required />
+                                </div>
+                            </div>
+
+                            <div class="w-full">
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="tel" v-model="phone"
+                                        placeholder="Teléfono" required />
+                                </div>
+
+                                <div class="mt-2">
+                                    <label for="sex">Fecha de nacimiento:</label>
+                                    <input class="w-full rounded p-2 border-b-2" type="date" v-model="birthday"
+                                        placeholder="Fecha de nacimiento" required />
+                                </div>
+                                <div class="mt-2">
+                                    <label for="sex">Sexo:</label>
+                                    <select class="w-full rounded p-2 border-b-2" v-model="sex" required>
+                                        <option value="" disabled selected> -- Seleccione una opción -- </option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="No especificado">No especificado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="p-2 rounded-md w-full mt-2" type="submit">Guardar profesor</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="p-4">
                 <table class="rounded-xl bg-emerald-400 flex flex-col">
@@ -49,7 +78,7 @@
                             <th class="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                         <tr v-for="(teacher, index) in teachers" :key="teacher.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class=" px-4 py-2 hidden">{{ teacher.id }}</td>
@@ -58,7 +87,7 @@
                             <td class="flex items-center px-4 py-2">{{ teacher.email }}</td>
                             <td class="flex items-center px-4 py-2">{{ teacher.phone }}</td>
                             <td class="flex items-center px-4 py-2">{{ normalizeDate(teacher.birthday) }}</td>
-                            <td class="flex items-center grid gap-2 grid-cols-2 p-2">
+                            <td class="grid items-center gap-2 grid-cols-2 p-2">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(teacher.id)">
                                     <Icon name="fa6-solid:pencil" />
@@ -99,23 +128,50 @@ const name = ref();
 const surname = ref();
 const email = ref();
 const phone = ref();
+const password = ref();
 const birthday = ref();
+const sex = ref();
 const teachers = ref([]);
 
-const me = async () => {
-    const token = useCookie('token').value || "";
+const register = async () => {
+    if (id.value === '' || id.value === undefined || id.value === null) {
+        await $fetch('/auth/register', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            // data to be sent
+            body: JSON.stringify({
+                name: name.value,
+                surname: surname.value,
+                email: email.value,
+                phone: phone.value,
+                password: password.value,
+                birthday: birthday.value,
+                role: '1',
+                sex: sex.value
+            })
+        }).then(async (data: any) => {
 
-    return await $fetch('/auth/me', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            token: token
-        })
-    }).then((data: any) => {
-        return data;
-    }).catch((error) => {
-        console.log(error);
-    });
+            if (data.success) {
+                //Reset Input fields
+                name.value = '';
+                surname.value = '';
+                email.value = '';
+                phone.value = '';
+                password.value = '';
+                birthday.value = '';
+
+                teachers.value = await getUsersByRole();
+            } else {
+                // Login failed
+                console.log(data);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    } else {
+        // TODO: Editar profesor
+    }
+
 }
 
 const getUsersByRole = async () => {
@@ -134,6 +190,7 @@ const getUsersByRole = async () => {
     }
 }
 
+// TODO: Editar profesor
 const updateUser = async (id: any, name: any, surname: any, email: any, phone: any) => {
     const response = await $fetch('/api/users/updateUserByID', {
         method: "POST",
@@ -141,42 +198,6 @@ const updateUser = async (id: any, name: any, surname: any, email: any, phone: a
         body: JSON.stringify({ id, name, surname, email, phone })
     });
     return response;
-}
-
-const createUser = async (name: any, surname: any, email: any, phone: any, birthday: any) => {
-    const response = await $fetch('/auth/register', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            name,
-            surname,
-            email,
-            phone,
-            password: 'changemeImaTeacher',
-            birthday,
-            role: '1'
-        })
-    });
-    return response;
-}
-
-const register = async () => {
-    if (id.value) {
-        const response = await updateUser(id.value, name.value, surname.value, email.value, phone.value);
-        if (response) {
-            console.log(response);
-            teachers.value = await getUsersByRole();
-        } else {
-            console.log('error');
-        }
-    } else {
-        const response = await createUser(name.value, surname.value, email.value, phone.value, birthday.value);
-        if (response.success) {
-            teachers.value = await getUsersByRole();
-        } else {
-            console.log(response.error);
-        }
-    }
 }
 
 async function getUserById(id: string): Promise<User | null> {
@@ -241,6 +262,34 @@ async function deleteUser(id: string) {
 ////////////////////////// HELPERS //////////////////////////
 /////////////////////////////////////////////////////////////
 
+function searchTeacher() {
+    const input = document.getElementById("searchText") as HTMLInputElement;
+    const tbody = document.getElementById("tbody");
+    if (input && tbody) {
+        const filter = input.value.toUpperCase();
+        const tr = tbody.getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            const td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                const txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+}
+
+
+function displayForm() {
+    const form = document.getElementById("newTeacherForm");
+    if (form) {
+        form.classList.toggle("hidden");
+    }
+}
+
 function normalizeDate(date: string) {
     const d = new Date(date);
     const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
@@ -249,8 +298,17 @@ function normalizeDate(date: string) {
     return `${da}-${mo}-${ye}`;
 }
 
+function displayError(message: string) {
+    const error = document.getElementById("error");
+    if (error) {
+        error.innerHTML = message;
+        error.classList.remove("hidden");
+    }
+}
+
 onMounted(async () => {
     teachers.value = await getUsersByRole();
+    displayForm();
 });
 
 </script>

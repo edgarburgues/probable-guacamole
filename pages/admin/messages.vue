@@ -6,7 +6,7 @@
         <div class="flex flex-col w-full p-6 ">
             <div class="bg-green-200 p-4 rounded-xl">
                 <div class="flex">
-                    <button class="bg-green-500 rounded-xl w-24 mr-3" @click="displayNew">New</button>
+                    <button class="bg-green-500 rounded-xl w-24 mr-3 font-semibold" @click="displayNew">Nuevo</button>
                     <input @keyup="" type="text" placeholder="Buscar mensaje" class=" w-full p-2 rounded-xl pl-3">
                 </div>
 
@@ -28,10 +28,10 @@
 
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-3 w-28">From</th>
-                            <th class="px-4 py-3">Date</th>
-                            <th class="px-4 py-3 w-3/5">Message</th>
-                            <th class="px-4 py-3">Actions</th>
+                            <th class="px-4 py-3 w-28">De</th>
+                            <th class="px-4 py-3">Fecha</th>
+                            <th class="px-4 py-3 w-3/5">Mensaje</th>
+                            <th class="px-4 py-3">Acciones</th>
                         </tr>
                     </thead>
 

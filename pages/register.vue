@@ -1,52 +1,65 @@
-<template >
-    <title>Simple Season</title>
-    <div class="flex flex-col items-center justify-center h-full -mt-9 indexPage">
-        <h1> Register </h1>
-        <div class="w-full max-w-md">
-            <form @submit.prevent="register" class="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div class="mt-2">
-                    <input id="name" class="w-full rounded p-2 text-slate-900" type="text" v-model="name" placeholder="Name"
-                        required />
+<template>
+    <title>Index | Capitol Formación Profesional</title>
+    <div class="grid grid-cols-5 w-screen h-screen">
+        <div class="w-full h-full relative col-span-4">
+            <img src="../assets/bg_login.webp" class="absolute w-full h-full object-cover">
+        </div>
+        <div class="">
+            <div class="flex flex-col justify-center items-center h-full p-6">
+                <h1 class="text-2xl font-bold">Registro</h1>
+                <div class="">
+                    <form @submit.prevent="register" class="shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="text" v-model="name" placeholder="Nombre"
+                                required />
+                        </div>
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="text" v-model="surname"
+                                placeholder="Apellidos" required />
+                        </div>
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="email" v-model="email"
+                                placeholder="Correo electrónico" required />
+                        </div>
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="tel" v-model="phone" placeholder="Teléfono"
+                                required />
+                        </div>
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="password" v-model="password"
+                                placeholder="Contraseña" required />
+                        </div>
+                        <div class="mt-2">
+                            <input class="w-full rounded p-2 border-b-2" type="date" v-model="birthday"
+                                placeholder="Fecha de nacimiento" required />
+                        </div>
+                        <div class="mt-2">
+                            <label for="sex">Rol:</label>
+                            <select class="w-full rounded p-2 border-b-2" v-model="role" required>
+                                <option value="" disabled selected>Seleccione una opción</option>
+                                <option value="0">Administrador</option>
+                                <option value="1">Profesor</option>
+                                <option value="2">Alumno</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <label for="sex">Sexo:</label>
+                            <select class="w-full rounded p-2 border-b-2" v-model="sex" required>
+                                <option value="" disabled selected>Seleccione una opción</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="No especificado">No especificado</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <button class="bg-emerald-500 p-2 rounded-md w-full mt-2" type="submit">Registrarse</button>
+                        </div>
+                        <div class="mt-3">
+                            <a href="/login" class="text-green-600">¿Ya tienes una cuenta? Inicia sesión</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="mt-2">
-                    <input id="surname" class="w-full rounded p-2 text-slate-900" type="text" v-model="surname"
-                        placeholder="Surname" required />
-                </div>
-                <div class="mt-2">
-                    <input id="email" class="w-full rounded p-2 text-slate-900" type="email" v-model="email"
-                        placeholder="Email" required />
-                </div>
-                <div class="mt-2">
-                    <input id="phone" class="w-full rounded p-2 text-slate-900" type="tel" v-model="phone"
-                        placeholder="Phone" required />
-                </div>
-                <div class="mt-2">
-                    <input id="password" class="w-full rounded p-2 text-slate-900" type="password" v-model="password"
-                        placeholder="Password" required />
-                </div>
-                <div class="mt-2">
-                    <input id="confirm-password" class="w-full rounded p-2 text-slate-900" type="password"
-                        v-model="confirm_password" placeholder="Confirm Password" required />
-                </div>
-                <div class="mt-2">
-                    <input id="birthday" class="w-full rounded p-2 text-slate-900" type="date" v-model="birthday"
-                        placeholder="Birthday" required />
-                </div>
-                <div class="mt-2">
-                    <input id="role" class="w-full rounded p-2 text-slate-900" type="text" v-model="role" placeholder="Role"
-                        required />
-                </div>
-                <div class="mt-2">
-                    <button
-                        class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500"
-                        type="submit">Register</button>
-                </div>
-
-            </form>
-            <button @click="navigateTo('/login')"
-                class="w-full rounded p-2 bg-slate-200 hover:bg-slate-300 border dark:border-none dark:bg-slate-700 dark:hover:bg-slate-500">
-                Go to Login
-            </button>
+            </div>
         </div>
     </div>
 </template>
@@ -54,7 +67,6 @@
 <script setup lang="ts">
 definePageMeta({
     middleware: ["not-auth"],
-    layout: "debug"
 });
 
 const name = ref();
@@ -62,18 +74,15 @@ const surname = ref();
 const email = ref();
 const phone = ref();
 const password = ref();
-const confirm_password = ref();
-const register_message = ref();
-const register_button_label = ref("REGISTER");
 const birthday = ref();
 const role = ref();
+const sex = ref();
 
 const register = async () => {
-    register_button_label.value = "Loading...";
-
     await $fetch('/auth/register', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // data to be sent
         body: JSON.stringify({
             name: name.value,
             surname: surname.value,
@@ -81,34 +90,26 @@ const register = async () => {
             phone: phone.value,
             password: password.value,
             birthday: birthday.value,
-            role: role.value
+            role: role.value,
+            sex: sex.value
         })
     }).then((data: any) => {
-        //On registration success
-        if (data.success) {
-            //Reset HTML elements
-            register_button_label.value = "REGISTER";
-            register_message.value = "Your Registration was Successful"
 
+        if (data.success) {
             //Reset Input fields
-            name.value = null;
-            surname.value = null;
-            email.value = null;
-            phone.value = null;
-            password.value = null;
-            confirm_password.value = null;
-            birthday.value = null;
-            role.value = null;
+            name.value = '';
+            surname.value = '';
+            email.value = '';
+            phone.value = '';
+            password.value = '';
+            birthday.value = '';
+
         } else {
             // Login failed
-            register_button_label.value = "REGISTER";
-
-            register_message.value = data.message;
+            console.log(data);
         }
     }).catch((error) => {
         console.log(error);
-        //Error
-        register_button_label.value = "REGISTER";
     });
 }
 </script>

@@ -1,19 +1,14 @@
 <template>
-    <title>My profile</title>
-    <div class="grid grid-cols-12 gap-1 h-full">
+    <div class="flex min-h-full">
+        <Configbar />
+        <div class="flex flex-col w-full p-6 bg-gray-100">
+            <div class="col-span-3 p-4">
+                <p class="m-4">You are logged in as <span class="font-bold">{{ user?.email }}</span>.</p>
 
-
-        <div class="bg-slate-800 text-slate-100">
-            <Configbar />
+                <h1>TDB</h1>
+            </div>
         </div>
-        <div class="col-span-3 p-4">
-            <p class="text-slate-100 m-4">You are logged in as <span class="font-bold">{{ user?.email }}</span>.</p>
 
-            <button class="p-2 border w-36 rounded m-4 hover:bg-slate-500" @click="toggleColorTheme"> {{ currentTheme ===
-                'light' ? 'Dark' :
-                'Light' }} </button>
-            <button class="p-2 border w-36 rounded m-4 hover:bg-slate-500 " @click="logout">Logout</button>
-        </div>
 
     </div>
 </template>

@@ -2,27 +2,20 @@ import { createJwtToken } from "~~/jwt";
 import { prisma } from "~~/db";
 import bcrypt from "bcrypt";
 
-interface CreateUserInput {
+interface RegisterBody {
    name: string;
    surname: string;
    email: string;
    phone: string;
    password: string;
-   salt: string;
-   last_login_ip_address: string;
-   last_logged_in_at: Date;
-   current_logged_in_at: Date;
    birthday: Date;
    role: string;
-   course?: {
-      connect: {
-         id: any;
-      };
-   };
+   sex: string;
+   salt: string;
 }
 
 export default defineEventHandler(async (event) => {
-   const { name, surname, email, phone, password, birthday, role, coursesId } = await readBody(event);
+   const { name, surname, email, phone, password, birthday, role, sex } = await readBody(event);
 
    const user = await prisma.user.findUnique({
       where: {
@@ -41,22 +34,18 @@ export default defineEventHandler(async (event) => {
       const salt = await bcrypt.genSalt();
       const hash = await bcrypt.hash(password, salt);
 
-      const createUser: any = await prisma.user.create({
+      const createUser = await prisma.user.create({
          data: {
             name: name,
             surname: surname,
             email: email,
             phone: phone,
             password: hash,
-            salt: salt,
-            last_login_ip_address: "",
-            last_logged_in_at: new Date(),
-            current_logged_in_at: new Date(),
             birthday: new Date(birthday),
             role: role,
-
-
-         }
+            sex: sex,
+            salt: salt,
+         } as RegisterBody
       });
 
       //Remove the password and salt from the object
@@ -66,9 +55,10 @@ export default defineEventHandler(async (event) => {
       //Disconnect Prisma
       prisma.$disconnect();
 
-      //Add success attributes to the object
-      createUser.success = true;
-
-      return createUser;
+      // Return the user object with the 'success' property set to true
+      return {
+         ...createUser,
+         success: true,
+      };
    }
 });

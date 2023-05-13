@@ -1,57 +1,69 @@
 <template>
-    <div class="grid grid-cols-12 gap-1">
-        <AdminLeftbar />
-        <div class="col-span-10 bg-slate-600 p-4">
+    <title>Messages | Capitol Formación Profesional </title>
+    <div class="flex min-h-full">
+        <TeacherLeftbar active="messages" />
 
-            <div class="grid grid-cols-12 gap-2">
-                <button class="bg-green-500 text-white rounded-md w-full" @click="displayNew">New</button>
-                <input type="text" placeholder="Buscar mensaje"
-                    class=" w-full bg-s late-600 text-white p-2 rounded-md bg-slate-700 col-span-11 ">
+        <div class="flex flex-col w-full p-6 ">
+            <div class="bg-green-200 p-4 rounded-xl">
+                <div class="flex">
+                    <button class="bg-green-500 rounded-xl w-24 mr-3 font-semibold" @click="displayNew">Nuevo</button>
+                    <input @keyup="" type="text" placeholder="Buscar mensaje" class=" w-full p-2 rounded-xl pl-3">
+                </div>
+
+                <form id="newMessage" @submit.prevent="sendMessage" class="py-4">
+                    <select class="w-full p-2 rounded-md" v-model="userSelected">
+                        <option class="text-xl" value="" disabled selected>-- Selecciona un usuario --</option>
+                        <option class="text-xl" v-for="user in users" :key="user.id" :value="user.id">
+                            {{ user.role }} - {{ user.name }} - {{ user.email }} - {{ user.id }}
+                        </option>
+                    </select>
+                    <textarea v-model="messageContent" type="text" placeholder="Escribe tu mensaje"
+                        class=" w-full p-2 rounded-md  mt-2" />
+                    <button type="submit" class="bg-green-500 p-2 rounded-md w-full mt-2">Enviar</button>
+                </form>
             </div>
 
-            <form id="newMessage" @submit.prevent="sendMessage" class="py-4">
-                <select class="w-full bg-s late-600 text-white p-2 rounded-md bg-slate-700 col-span-11"
-                    v-model="userSelected">
-                    <option class="text-xl" value="" disabled selected>-- Selecciona un usuario --</option>
-                    <option class="text-xl" v-for="user in users" :key="user.id" :value="user.id">
-                        {{ user.role }} - {{ user.name }} - {{ user.email }} - {{ user.id }}
-                    </option>
-                </select>
-                <textarea v-model="messageContent" type="text" placeholder="Escribe tu mensaje"
-                    class=" w-full bg-s late-600 text-white p-2 rounded-md bg-slate-700 mt-2" />
-                <button type="submit" class="bg-green-500 text-white p-2 rounded-md w-full mt-2">Enviar</button>
-            </form>
+            <div class="p-4">
+                <table class="rounded-xl bg-emerald-400 flex flex-col">
 
-            <div class="w-full mt-4">
-                <div v-for="message in messages" class="p-4 mt-3 bg-slate-900 rounded-xl w-full grid grid-cols-12 gap-2">
-                    <div class="col-span-2 flex items-center ">
-                        <template v-for="user in users">
-                            <template v-if="user.id == message.from_id">
-                                {{ user.name }}
-                            </template>
-                        </template>
-                    </div>
-                    <div class="col-span-2 flex items-center">
-                        {{ normalizeDate(message.created_at) }}
-                    </div>
+                    <thead class="bg-emerald-500 rounded-t-xl">
+                        <tr class="flex justify-between">
+                            <th class="px-4 py-3 w-28">De</th>
+                            <th class="px-4 py-3">Fecha</th>
+                            <th class="px-4 py-3 w-3/5">Mensaje</th>
+                            <th class="px-4 py-3">Acciones</th>
+                        </tr>
+                    </thead>
 
-                    <div class="col-span-7 flex bg-slate-700 rounded-xl px-3 py-2">
-                        {{ message.text }}
-                    </div>
-                    <div class="col-span-1 flex justify-around items-center p-2">
-                        <button @click="markAsRead(message.id)"
-                            class="bg-blue-400 text-white p-2 rounded-md w-12 h-11 flex items-center justify-center">
-                            <Icon name="fa6-solid:envelope-circle-check" />
-                        </button>
-                        <button @click="deleteMessage(message.id)"
-                            class="bg-red-500 text-white p-2 rounded-md w-12 h-11 flex items-center justify-center">
-                            <Icon name="fa6-solid:trash-can" />
-                        </button>
-                    </div>
-                </div>
+                    <tbody>
+                        <tr v-for="(message, index) in messages" class=" flex justify-between"
+                            :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
+                            <td class="flex items-center px-4 py-2 w-28">
+                                <template v-for="user in users">
+                                    <template v-if="user.id == message.from_id">
+                                        {{ user.name }}
+                                    </template>
+                                </template>
+                            </td>
+                            <td class="flex items-center px-4 py-2">{{ normalizeDate(message.created_at) }}</td>
+                            <td class="flex items-center px-4 py-2 w-3/5">{{ message.text }}</td>
+                            <td class="items-center grid gap-2 grid-cols-2 p-2">
+                                <button @click="markAsRead(message.id)"
+                                    class="bg-green-500 hover:bg-green-700 font-bold rounded h-11 w-12">
+                                    <Icon name="fa6-solid:envelope-circle-check" />
+                                </button>
+                                <button @click="deleteMessage(message.id)"
+                                    class="bg-red-500 hover:bg-green-700 font-bold rounded h-11 w-12">
+                                    <Icon name="fa6-solid:trash-can" />
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
+                    </tbody>
+
+                </table>
             </div>
         </div>
-
     </div>
 </template>
 

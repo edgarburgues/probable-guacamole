@@ -8,7 +8,7 @@
                     <p class="w-full pl-6 p-3 flex items-center">
                         <Icon name="material-symbols:monitor-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Dashboard
+                            Inicio
                         </span>
                     </p>
                 </NuxtLink>
@@ -20,7 +20,7 @@
                     <p class="w-full pl-6 p-3">
                         <Icon name="material-symbols:door-front-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Courses
+                            Cursos
                         </span>
                     </p>
 
@@ -32,7 +32,7 @@
                     <p class=" w-full pl-6 p-3">
                         <Icon name="material-symbols:menu-book-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Teachers
+                            Profesorado
                         </span>
                     </p>
 
@@ -44,7 +44,7 @@
                     <p class=" w-full pl-6 p-3">
                         <Icon name="material-symbols:school-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Students
+                            Estudiantess
                         </span>
                     </p>
 
@@ -56,7 +56,7 @@
                     <p class=" w-full pl-6 p-3">
                         <Icon name="mdi:bulletin-board" class="text-2xl" />
                         <span class="ml-2">
-                            Bulletin
+                            Boletín
                         </span>
                     </p>
 
@@ -68,7 +68,7 @@
                     <p class=" w-full pl-6 p-3">
                         <Icon name="material-symbols:chat-bubble-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Messages
+                            Mensajes
                         </span>
                     </p>
 
