@@ -63,7 +63,7 @@
                                     {{ getCount(course.id) }}
                                 </span>
                             </td>
-                            <td class="grid gap-2 grid-cols-2 p-2 w-1/3 flex justify-end">
+                            <td class="grid gap-2 grid-cols-2 p-2 w-1/3 justify-end">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editCourse(course.id)">
                                     <Icon name="fa6-solid:pencil" />
