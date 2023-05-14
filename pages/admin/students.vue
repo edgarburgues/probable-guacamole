@@ -1,90 +1,138 @@
 <template>
-    <title>Student Management | Capitol Formación Profesional</title>
+    <title>Student Management | Capitol Formación Profesional </title>
     <div class="flex min-h-full">
         <AdminLeftbar active="students" />
 
         <div class="flex flex-col w-full p-6 bg-gray-100">
             <div class="p-4">
-                <form @submit.prevent="register" class="bg-emerald-300 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <div class="mt-2">
-                        <input id="id" class="hidden" type="text" v-model="id" placeholder="id" />
-                    </div>
-                    <div class="mt-2">
-                        <input id="name" class="w-full rounded p-2 text-slate-900 " type="text" v-model="name"
-                            placeholder="Name" required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="surname" class="w-full rounded p-2  " type="text" v-model="surname" placeholder="Surname"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="email" class="w-full rounded p-2 " type="email" v-model="email" placeholder="Email"
-                            required />
-                    </div>
-                    <div class="mt-2">
-                        <input id="phone" class="w-full rounded p-2" type="tel" v-model="phone" placeholder="Phone"
-                            required />
-                    </div>
 
-                    <div class="mt-2">
-                        <input id="birthday" class="w-full rounded p-2" type="date" v-model="birthday"
-                            placeholder="Birthday" required />
-                    </div>
+                <div class="flex">
+                    <button @click="displayForm"
+                        class="bg-green-500 rounded-xl w-24 mr-3 font-semibold shadow-xl">Nuevo</button>
+                    <input @keyup="searchStudent" id="searchText" type="text" placeholder="Buscar alumno"
+                        class=" w-full p-2 rounded-xl pl-3 shadow-xl">
+                </div>
 
-                    <div class="mt-2">
-                        <select id="course_id" v-model="idCourseSubject" class="w-full rounded p-2 " placeholder="Course"
-                            required>
-                            <option value="" disabled selected>Select a course</option>
-                            <option v-for="course in courses" :key="course.id" :value="course.id">
-                                {{ course.name }} - {{ course.id }}
-                            </option>
-                        </select>
-                    </div>
+                <div id="newStudentForm">
+                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-md rounded-xl p-4 mt-5">
+                        <div class="flex gap-3 ">
+                            <div class="w-full flex flex-col justify-between">
+                                <input class="hidden" type="text" v-model="id" />
+                                <div class="">
+                                    <input class="w-full rounded p-2 border-b-2" type="text" v-model="name"
+                                        placeholder="Nombre" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="text" v-model="surname"
+                                        placeholder="Apellidos" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="email" v-model="email"
+                                        placeholder="Correo electrónico" required />
+                                </div>
+                                <div class="mt-2">
+                                    <input class="w-full rounded p-2 border-b-2" type="password" v-model="password"
+                                        placeholder="Contraseña" required />
+                                </div>
 
-                    <div class="mt-2">
-                        <button class="w-full rounded p-2" type="submit">
-                            Save student
-                        </button>
-                    </div>
-                </form>
+                            </div>
+
+                            <div class="w-full flex flex-col">
+                                <div class="flex">
+                                    <input id="tel" class="w-full rounded p-2 border-b-2" type="tel" v-model="phone"
+                                        placeholder="Teléfono" required ref="telInput" />
+                                    <button type="button" @click="generateRandom('tel')"
+                                        class="bg-blue-500 text-white rounded-xl w-24 ml-3 font-semibold">
+                                        random
+                                    </button>
+                                </div>
+                                <div class="">
+                                    <label for="birthDate" class="ml-2">Fecha de nacimiento:</label>
+                                    <div class="flex">
+                                        <input id="birthDate" class="w-full rounded p-2 border-b-2" type="date"
+                                            v-model="birthday" placeholder="Fecha de nacimiento" required />
+                                        <button type="button" @click="generateRandom('fecha')"
+                                            class="bg-blue-500 text-white rounded-xl w-24 ml-3 font-semibold">
+                                            random
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="sex" class="ml-2">Sexo:</label>
+                                    <select class="w-full rounded p-2 border-b-2" v-model="sex" required>
+                                        <option value="" disabled selected>
+                                            -- Selecciona un usuario --
+                                        </option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="No especificado">No especificado</option>
+                                    </select>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="course" class="ml-2">Curso:</label>
+                                    <select class="w-full rounded p-2 border-b-2" v-model="courseSelected">
+                                        <option value="" disabled selected> -- Seleccione una opción -- </option>
+                                        <option v-for="course in courses" :key="course.id" :value="course.id">
+                                            {{ course.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="mt-2">
+                            <button class="bg-green-500 font-semibold p-2 rounded-md w-full mt-2" type="submit">Guardar
+                                alumno</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-
             <div class="p-4">
                 <table class="rounded-xl bg-emerald-400 flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2 hidden">ID</th>
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Surname</th>
-                            <th class="px-4 py-2">Email</th>
-                            <th class="px-4 py-2">Phone</th>
-                            <th class="px-4 py-2">Birthday</th>
-                            <th class="px-4 py-2">Course</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="hidden">ID</th>
+                            <th class="flex items-center w-1/7 p-2 ml-2">Nombre</th>
+                            <th class="flex items-center w-1/7 p-2">Email</th>
+                            <th class="flex items-center w-1/7 p-2">Teléfono</th>
+                            <th class="flex items-center w-1/7 p-2">Fecha de nacimiento</th>
+                            <th class="flex items-center w-1/7 p-2 justify-between">
+                                <div>
+                                    Sexo
+                                </div>
+                                <div>
+                                    Curso
+                                </div>
+                            </th>
+                            <th class="flex w-1/12 p-2 justify-end">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                         <tr v-for="(student, index) in students" :key="student.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class="px-4 py-2 hidden">{{ student.id }}</td>
-                            <td class="flex items-center px-4 py-2">{{ student.name }}</td>
-                            <td class="flex items-center px-4 py-2">{{ student.surname }}</td>
-                            <td class="flex items-center px-4 py-2">{{ student.email }}</td>
-                            <td class="flex items-center px-4 py-2">{{ student.phone }}</td>
-                            <td class="flex items-center px-4 py-2">{{ normalizeDate(student.birthday) }}</td>
-                            <td class="flex items-center px-4 py-2">
-                                <template v-for="course in courses">
-                                    <template v-if="course.id == student.coursesId">
-                                        {{ course.name }}
-                                    </template>
-                                </template>
+                            <td class="hidden">{{ student.id }}</td>
+                            <td class="flex items-center w-1/7 p-2 ml-2">{{ student.surname }}, {{ student.name }}
                             </td>
-                            <td class="grid gap-2 grid-cols-2 p-2">
-                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            <td class="flex items-center w-1/7 p-2">{{ student.email }}</td>
+                            <td class="flex items-center w-1/7 p-2">{{ student.phone }}</td>
+                            <td class="flex items-center w-1/7 p-2">{{ normalizeDate(student.birthday) }}</td>
+                            <td class="flex items-center w-1/7 p-2 justify-between">
+                                <div>
+                                    {{ student.sex }}
+                                </div>
+                                <div>
+                                    {{ student.student_courses.length > 0 ? student.student_courses[0].name : '' }}
+                                </div>
+                            </td>
+                            <td class="flex justify-end w-1/12 gap-2 p-2">
+                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(student.id)">
                                     <Icon name="fa6-solid:pencil" />
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteUser(student.id)">
                                     <Icon name="fa6-solid:trash-can" />
                                 </button>
@@ -98,13 +146,93 @@
     </div>
 </template>
 
+
 <script setup lang="ts">
+
 definePageMeta({
     middleware: ["auth"],
-    // layout: "admin",
+    // layout: "admin"
 });
 
-const me = async () => {
+interface User {
+    id: string;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+    birthday: string;
+}
+
+const id = ref();
+const name = ref();
+const surname = ref();
+const email = ref();
+const phone = ref();
+const password = ref();
+const birthday = ref();
+const sex = ref();
+const students = ref([]);
+const courses = ref([]);
+const courseSelected = ref();
+
+const register = async () => {
+
+    if (id.value === '' || id.value === undefined || id.value === null) {
+        await $fetch('/auth/register', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            // data to be sent
+            body: JSON.stringify({
+                name: name.value,
+                surname: surname.value,
+                email: email.value,
+                phone: phone.value,
+                password: password.value,
+                birthday: birthday.value,
+                role: '2',
+                sex: sex.value,
+                course: courseSelected.value
+            })
+        }).then(async (data: any) => {
+
+            if (data.success) {
+                //Reset Input fields
+                name.value = '';
+                surname.value = '';
+                email.value = '';
+                phone.value = '';
+                password.value = '';
+                birthday.value = '';
+
+                students.value = await getUsersByRole();
+            } else {
+                // Login failed
+                console.log(data);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    } else {
+        // TODO: Editar profesor
+    }
+
+}
+
+async function getCourses() {
+    let response = await fetch("/api/courses/getCourses", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    let result = await response.json();
+    courses.value = result.body;
+}
+
+
+
+const getUsersByRole = async () => {
     try {
         const response = await fetch("/api/users/getUsersByRole", {
             method: "POST",
@@ -118,128 +246,142 @@ const me = async () => {
     } catch (error) {
         console.log(error);
     }
-};
+}
 
-const students = ref([]);
-const coursesData: any = ref([]);
-var courses = ref([]);
 
-onMounted(async () => {
-    students.value = await me();
 
-    coursesData.value = await fetch("/api/courses/getCourses", {
+// TODO: Editar profesor
+const updateUser = async (id: any, name: any, surname: any, email: any, phone: any) => {
+    const response = await $fetch('/api/users/updateUserByID', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ id, name, surname, email, phone })
     });
-    courses.value = await coursesData.value.json().then((data: any) => {
-        return data.body;
-    });
-});
+    return response;
+}
+
+async function getUserById(id: string): Promise<User | null> {
+    try {
+        const response = await $fetch('/api/users/getUserByID', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        });
+
+        if (response) {
+            const user: User = {
+                id: id,
+                name: response[0].name,
+                surname: response[0].surname,
+                email: response[0].email,
+                phone: response[0].phone,
+                birthday: new Date(response[0].birthday).toISOString().split('T')[0]
+            };
+            return user;
+        } else {
+            console.log("No data");
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function editUser(idParam: string) {
+    const user = await getUserById(idParam);
+    if (user) {
+        id.value = user.id;
+        name.value = user.name;
+        surname.value = user.surname;
+        email.value = user.email;
+        phone.value = user.phone;
+        birthday.value = user.birthday;
+    }
+}
+async function deleteUser(id: string) {
+    const shouldDelete = confirm("Are you sure you want to delete this student?");
+    if (shouldDelete) {
+        try {
+            await $fetch('/api/users/deleteUserByID', {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id })
+            });
+            students.value = await getUsersByRole();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+// TODO: Implementar botón de 'Clear'
+
+//////////////////////////////////////////////////////////////
+////////////////////////// HELPERS //////////////////////////
+/////////////////////////////////////////////////////////////
+
+function searchStudent() {
+    const input = document.getElementById("searchText") as HTMLInputElement;
+    const tbody = document.getElementById("tbody");
+    if (input && tbody) {
+        const filter = input.value.toUpperCase();
+        const tr = tbody.getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            const td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                const txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+}
+
+
+async function displayForm() {
+    const form = document.getElementById("newStudentForm");
+    await form.classList.toggle('hidden');
+}
 
 function normalizeDate(date: string) {
     const d = new Date(date);
-    const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
-    const mo = new Intl.DateTimeFormat("en", { month: "2-digit" }).format(d);
-    const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+    const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
+    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
     return `${da}-${mo}-${ye}`;
 }
 
-const id = ref();
-const name = ref();
-const surname = ref();
-const email = ref();
-const phone = ref();
-const birthday = ref();
-const idCourseSubject = ref("");
-
-const register = async () => {
-    if (id.value !== "" && id.value !== undefined) {
-        await $fetch("/api/users/updateUserByID", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: id.value,
-                name: name.value,
-                surname: surname.value,
-                email: email.value,
-                phone: phone.value,
-            }),
-        }).then(async (data: any) => {
-            if (data) {
-                students.value = await me();
-            } else {
-                console.log("error");
-            }
-        });
-    } else {
-        await $fetch("/auth/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: name.value,
-                surname: surname.value,
-                email: email.value,
-                phone: phone.value,
-                password: "changemeImaStudent",
-                birthday: birthday.value,
-                role: "2",
-                coursesId: idCourseSubject.value,
-            }),
-        })
-            .then(async (data: any) => {
-                if (data.success) {
-                    students.value = await me();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-};
-
-async function editUser(idParam: string) {
-    await $fetch("/api/users/getUserByID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: idParam,
-        }),
-    })
-        .then((data: any) => {
-            if (data) {
-                id.value = idParam;
-                name.value = data[0].name;
-                surname.value = data[0].surname;
-                email.value = data[0].email;
-                phone.value = data[0].phone;
-                birthday.value = new Date(data[0].birthday).toISOString().split("T")[0];
-            } else {
-                console.log("No data");
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-async function deleteUser(id: string) {
-    if (confirm("Are you sure you want to delete this student?")) {
-        await $fetch("/api/users/deleteUserByID", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: id,
-            }),
-        })
-            .then(async () => {
-                students.value = await me();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+function displayError(message: string) {
+    const error = document.getElementById("error");
+    if (error) {
+        error.innerHTML = message;
+        error.classList.remove("hidden");
     }
 }
 
-// BUG: Course no se añade al alumno
+function generateRandom(campo: string) {
+    if (campo === 'tel') {
+        const randomNumber = Math.floor(Math.random() * 1000000000).toString().padStart(10, '6');
+        this.phone = randomNumber.substring(0, 9);
+    } else if (campo === 'fecha') {
+        const randomDate = new Date(+new Date(1970, 0, 1) + Math.random() * (new Date(2002, 0, 1).getTime() - new Date(1970, 0, 1).getTime()));
+        this.birthday = randomDate.toISOString().split('T')[0];
+
+    }
+}
+
+onMounted(async () => {
+    students.value = await getUsersByRole();
+    displayForm();
+
+    await getCourses();
+
+
+});
+
 </script>

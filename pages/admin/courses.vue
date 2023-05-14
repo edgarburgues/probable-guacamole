@@ -46,23 +46,29 @@
 
 
             <div class="p-4 grid grid-cols-2 gap-3">
-                <table class="rounded-xl flex flex-col shadow-xl">
+                <table class="rounded-xl flex flex-col shadow-xl h-fit">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2">Nombre</th>
-                            <th class="px-4 py-2">Acciones</th>
+                            <th class="px-4 py-2 w-1/3 flex justify-start">Nombre</th>
+                            <th class="px-4 py-2 w-1/3 flex justify-center">Nº de asignaturas</th>
+                            <th class="px-4 py-2 w-1/3 flex justify-end">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="">
                         <tr v-for="(course, index) in courses" :key="course.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class="px-4 py-2">{{ course.name }}</td>
-                            <td class="grid gap-2 grid-cols-2 p-2">
+                            <td class="px-4 py-2 flex items-center w-1/3">{{ course.name }}</td>
+                            <td class="px-4 py-2 flex items-center justify-center w-1/3">
+                                <span v-if="subjects.length > 0">
+                                    {{ getCount(course.id) }}
+                                </span>
+                            </td>
+                            <td class="grid gap-2 grid-cols-2 p-2 w-1/3 flex justify-end">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editCourse(course.id)">
                                     <Icon name="fa6-solid:pencil" />
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
+                                <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded "
                                     @click="deleteCourse(course.id)">
                                     <Icon name="fa6-solid:trash-can" />
                                 </button>
@@ -75,23 +81,23 @@
                 <table class="rounded-xl  flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2">Nombre</th>
-                            <th class="px-4 py-2">Curso</th>
-                            <th class="px-4 py-2">Acciones</th>
+                            <th class="px-4 py-2 w-1/2 flex justify-start">Nombre</th>
+                            <th class="px-4 py-2 w-1/4 flex justify-start">Curso</th>
+                            <th class="px-4 py-2 w-1/4 flex justify-end">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(subject, index) in subjects" :key="subject.id" class="flex w-full justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class=" px-4 py-2">{{ subject.name }}</td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 w-1/2 flex items-center">{{ subject.name }}</td>
+                            <td class="px-4 py-2 w-1/4 flex justify-start items-center">
                                 <template v-for="course in courses">
                                     <template v-if="course.id == subject.course_id">
                                         {{ course.name }}
                                     </template>
                                 </template>
                             </td>
-                            <td class="grid gap-2 grid-cols-2 p-2">
+                            <td class="p-2 w-1/4 flex gap-2 items-center justify-end">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editSubject(subject.body.id)">
                                     <Icon name="fa6-solid:pencil" />
@@ -296,5 +302,14 @@ onMounted(async () => {
     await getSubjects();
 });
 
+function getCount(courseId) {
+    this.count = 0; // Reiniciar el contador
+    for (let i = 0; i < this.subjects.length; i++) {
+        if (this.subjects[i].course_id == courseId) {
+            this.count++; // Aumentar el contador si se cumple la condición
+        }
+    }
+    return this.count; // Devolver el valor final del contador
+}
 
 </script>

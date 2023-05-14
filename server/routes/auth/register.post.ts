@@ -12,10 +12,15 @@ interface RegisterBody {
    role: string;
    sex: string;
    salt: string;
+   student_courses: {
+      connect: {
+         id: string;
+      }
+   }
 }
 
 export default defineEventHandler(async (event) => {
-   const { name, surname, email, phone, password, birthday, role, sex } = await readBody(event);
+   const { name, surname, email, phone, password, birthday, role, sex, course } = await readBody(event);
 
    const user = await prisma.user.findUnique({
       where: {
@@ -33,20 +38,31 @@ export default defineEventHandler(async (event) => {
    } else {
       const salt = await bcrypt.genSalt();
       const hash = await bcrypt.hash(password, salt);
+      let createUser: any;
+      if (role == "1") { // profesor
 
-      const createUser = await prisma.user.create({
-         data: {
-            name: name,
-            surname: surname,
-            email: email,
-            phone: phone,
-            password: hash,
-            birthday: new Date(birthday),
-            role: role,
-            sex: sex,
-            salt: salt,
-         } as RegisterBody
-      });
+      } else if (role == "2") { // alumno
+         createUser.value = await prisma.user.create({
+            data: {
+               name: name,
+               surname: surname,
+               email: email,
+               phone: phone,
+               password: hash,
+               birthday: new Date(birthday),
+               role: role,
+               sex: sex,
+               salt: salt,
+               student_courses: {
+                  connect: {
+                     id: course
+                  }
+               }
+            } as RegisterBody
+         });
+      }
+
+
 
       //Remove the password and salt from the object
       delete createUser.password;

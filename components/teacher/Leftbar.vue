@@ -27,7 +27,7 @@
             </li>
             <li
                 :class="active === 'absences' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
-                <NuxtLink to="/" class="flex">
+                <NuxtLink to="/teacher/absences" class="flex">
                     <p class=" w-full pl-6 p-3">
                         <Icon name="maki:doctor" class="text-2xl" />
                         <span class="ml-2">

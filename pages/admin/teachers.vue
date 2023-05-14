@@ -9,11 +9,11 @@
                 <div class="flex">
                     <button @click="displayForm" class="bg-green-500 rounded-xl w-24 mr-3 font-semibold">Nuevo</button>
                     <input @keyup="searchTeacher" id="searchText" type="text" placeholder="Buscar profesor"
-                        class=" w-full p-2 rounded-xl pl-3">
+                        class=" w-full p-2 rounded-xl pl-3 shadow-2xl">
                 </div>
 
                 <div id="newTeacherForm">
-                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-md rounded my-3 p-4">
+                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-xl rounded my-3 p-4">
                         <div class="flex gap-3">
                             <div class="w-full">
                                 <div class="mt-2">
@@ -65,28 +65,29 @@
                     </form>
                 </div>
             </div>
-            <div class="p-4">
-                <table class="rounded-xl bg-emerald-400 flex flex-col">
+            <div class="p-4 ">
+                <table class="rounded-xl bg-emerald-400 flex flex-col shadow-xl">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
                             <th class="px-4 py-2 hidden">ID</th>
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Surname</th>
-                            <th class="px-4 py-2">Email</th>
-                            <th class="px-4 py-2">Phone</th>
-                            <th class="px-4 py-2">Birthday</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-2 flex justify-start">Name</th>
+                            <th class="px-4 py-2 flex justify-start">Surname</th>
+                            <th class="px-4 py-2 flex justify-start">Email</th>
+                            <th class="px-4 py-2 flex justify-start">Phone</th>
+                            <th class="px-4 py-2 flex justify-start">Birthday</th>
+                            <th class="px-4 py-2 flex justify-start">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         <tr v-for="(teacher, index) in teachers" :key="teacher.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class=" px-4 py-2 hidden">{{ teacher.id }}</td>
-                            <td class="flex items-center px-4 py-2">{{ teacher.name }}</td>
-                            <td class="flex items-center px-4 py-2">{{ teacher.surname }}</td>
-                            <td class="flex items-center px-4 py-2">{{ teacher.email }}</td>
-                            <td class="flex items-center px-4 py-2">{{ teacher.phone }}</td>
-                            <td class="flex items-center px-4 py-2">{{ normalizeDate(teacher.birthday) }}</td>
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.name }}</td>
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.surname }}</td>
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.email }}</td>
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.phone }}</td>
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ normalizeDate(teacher.birthday)
+                            }}</td>
                             <td class="grid items-center gap-2 grid-cols-2 p-2">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(teacher.id)">
