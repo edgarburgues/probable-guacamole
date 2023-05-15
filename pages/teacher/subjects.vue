@@ -13,13 +13,11 @@
                         class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full mr-4 ">+</button>
                 </div>
 
-
                 <div :id="'DIV' + element.course.id" class="flex flex-col p-2">
                     <div v-for="subject in element.course.subjects"
                         class="bg-emerald-200 rounded-full p-4 mt-3 flex items-center justify-between">
                         <h2>{{ subject.name }}</h2>
                         <div class="flex items-center">
-
                             <NuxtLink :to="'/teacher/list/' + element.course.id + '/' + subject.id"
                                 class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mr-4 ">
                                 Pasar lista
@@ -41,9 +39,6 @@
         </div>
     </div>
 </template>
-
-
-
 
 
 <script setup lang="ts">
@@ -80,9 +75,9 @@ async function getCoursesByTeacherID() {
         console.log(error);
     });
 }
+
 const { user } = await me();
 const coursesList = ((await getCoursesByTeacherID()).body);
-
 
 
 

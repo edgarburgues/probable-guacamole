@@ -204,47 +204,11 @@ async function addTask() {
 onMounted(async () => {
 
     const { body } = await getDashboardData();
-
-    // const studentsNumber = document.getElementById('studentsNumber');
-    // const teacherNumber = document.getElementById('teacherNumber');
-    // const coursesNumber = document.getElementById('coursesNumber');
-    // const subjectsNumber = document.getElementById('subjectsNumber');
-    // const messagesNumber = document.getElementById('messagesNumber');
-    // const bulletinNumber = document.getElementById('bulletinNumber');
-    // 
-    // studentsNumber.innerHTML = body.students;
-    // teacherNumber.innerHTML = body.teachers;
-    // coursesNumber.innerHTML = body.courses;
-    // subjectsNumber.innerHTML = body.subjects;
-    // messagesNumber.innerHTML = body.messages;
-
-
     todos.value = body.todos;
 
 
 })
 
-// const logout = async () => {
-//     let { success } = await $fetch('/auth/logout', {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//     }).then((data: any) => {
-//         return data;
-//     }).catch((error) => {
-//         console.log(error);
-//     });
-//
-//     if (success) {
-//         window.location.href = '/';
-//     }
-// }
-
-
-// TODO: Bulletin sync
-// TODO: Messages sync
-// TODO: Tasks sync
-// TODO: Calendar sync
-// TODO: Graphic sync
 
 </script>
 

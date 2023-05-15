@@ -114,18 +114,13 @@
                         <tr v-for="(student, index) in students" :key="student.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
                             <td class="hidden">{{ student.id }}</td>
-                            <td class="flex items-center w-1/7 p-2 ml-2">{{ student.surname }}, {{ student.name }}
-                            </td>
+                            <td class="flex items-center w-1/7 p-2 ml-2"> {{ student.surname }}, {{ student.name }} </td>
                             <td class="flex items-center w-1/7 p-2">{{ student.email }}</td>
                             <td class="flex items-center w-1/7 p-2">{{ student.phone }}</td>
                             <td class="flex items-center w-1/7 p-2">{{ normalizeDate(student.birthday) }}</td>
                             <td class="flex items-center w-1/7 p-2 justify-between">
-                                <div>
-                                    {{ student.sex }}
-                                </div>
-                                <div>
-                                    {{ student.student_courses.length > 0 ? student.student_courses[0].name : '' }}
-                                </div>
+                                <div>{{ student.sex }}</div>
+                                <div>{{ student.student_courses.length > 0 ? student.student_courses[0].name : '' }}</div>
                             </td>
                             <td class="flex justify-end w-1/12 gap-2 p-2">
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
@@ -148,6 +143,8 @@
 
 
 <script setup lang="ts">
+import { s } from '@fullcalendar/core/internal-common';
+
 
 definePageMeta({
     middleware: ["auth"],
@@ -161,6 +158,8 @@ interface User {
     email: string;
     phone: string;
     birthday: string;
+    sex: string;
+    student_courses: string;
 }
 
 const id = ref();
@@ -206,14 +205,13 @@ const register = async () => {
 
                 students.value = await getUsersByRole();
             } else {
-                // Login failed
-                console.log(data);
+                console.log('error', data);
             }
         }).catch((error) => {
             console.log(error);
         });
     } else {
-        // TODO: Editar profesor
+        await updateUser(id.value, name.value, surname.value, email.value, phone.value, birthday.value, sex.value, courseSelected.value);
     }
 
 }
@@ -248,14 +246,11 @@ const getUsersByRole = async () => {
     }
 }
 
-
-
-// TODO: Editar profesor
-const updateUser = async (id: any, name: any, surname: any, email: any, phone: any) => {
+const updateUser = async (id: any, name: any, surname: any, email: any, phone: any, birthday: any, sex: any, student_courses: any) => {
     const response = await $fetch('/api/users/updateUserByID', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, name, surname, email, phone })
+        body: JSON.stringify({ id, name, surname, email, phone, sex, student_courses })
     });
     return response;
 }
@@ -275,7 +270,9 @@ async function getUserById(id: string): Promise<User | null> {
                 surname: response[0].surname,
                 email: response[0].email,
                 phone: response[0].phone,
-                birthday: new Date(response[0].birthday).toISOString().split('T')[0]
+                birthday: new Date(response[0].birthday).toISOString().split('T')[0],
+                sex: response[0].sex,
+                student_courses: response[0].student_courses[0].id
             };
             return user;
         } else {
@@ -290,6 +287,7 @@ async function getUserById(id: string): Promise<User | null> {
 
 async function editUser(idParam: string) {
     const user = await getUserById(idParam);
+    displayForm();
     if (user) {
         id.value = user.id;
         name.value = user.name;
@@ -297,6 +295,8 @@ async function editUser(idParam: string) {
         email.value = user.email;
         phone.value = user.phone;
         birthday.value = user.birthday;
+        sex.value = user.sex;
+        courseSelected.value = user.student_courses;
     }
 }
 async function deleteUser(id: string) {
@@ -354,14 +354,6 @@ function normalizeDate(date: string) {
     const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
     const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
     return `${da}-${mo}-${ye}`;
-}
-
-function displayError(message: string) {
-    const error = document.getElementById("error");
-    if (error) {
-        error.innerHTML = message;
-        error.classList.remove("hidden");
-    }
 }
 
 function generateRandom(campo: string) {

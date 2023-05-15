@@ -13,13 +13,11 @@
                 </div>
 
                 <div id="newTeacherForm">
-                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-xl rounded my-3 p-4">
-                        <div class="flex gap-3">
-                            <div class="w-full">
-                                <div class="mt-2">
-                                    <input class="hidden" type="text" v-model="id" />
-                                </div>
-                                <div class="mt-2">
+                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-md rounded-xl p-4 mt-5">
+                        <div class="flex gap-3 ">
+                            <div class="w-full flex flex-col justify-between">
+                                <input class="hidden" type="text" v-model="id" />
+                                <div class="">
                                     <input class="w-full rounded p-2 border-b-2" type="text" v-model="name"
                                         placeholder="Nombre" required />
                                 </div>
@@ -35,32 +33,49 @@
                                     <input class="w-full rounded p-2 border-b-2" type="password" v-model="password"
                                         placeholder="Contraseña" required />
                                 </div>
+
                             </div>
 
-                            <div class="w-full">
-                                <div class="mt-2">
-                                    <input class="w-full rounded p-2 border-b-2" type="tel" v-model="phone"
-                                        placeholder="Teléfono" required />
+                            <div class="w-full flex flex-col">
+                                <div class="flex">
+                                    <input id="tel" class="w-full rounded p-2 border-b-2" type="tel" v-model="phone"
+                                        placeholder="Teléfono" required ref="telInput" />
+                                    <button type="button" @click="generateRandom('tel')"
+                                        class="bg-blue-500 text-white rounded-xl w-24 ml-3 font-semibold">
+                                        random
+                                    </button>
                                 </div>
-
-                                <div class="mt-2">
-                                    <label for="sex">Fecha de nacimiento:</label>
-                                    <input class="w-full rounded p-2 border-b-2" type="date" v-model="birthday"
-                                        placeholder="Fecha de nacimiento" required />
+                                <div class="">
+                                    <label for="birthDate" class="ml-2">Fecha de nacimiento:</label>
+                                    <div class="flex">
+                                        <input id="birthDate" class="w-full rounded p-2 border-b-2" type="date"
+                                            v-model="birthday" placeholder="Fecha de nacimiento" required />
+                                        <button type="button" @click="generateRandom('fecha')"
+                                            class="bg-blue-500 text-white rounded-xl w-24 ml-3 font-semibold">
+                                            random
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="mt-2">
-                                    <label for="sex">Sexo:</label>
+                                    <label for="sex" class="ml-2">Sexo:</label>
                                     <select class="w-full rounded p-2 border-b-2" v-model="sex" required>
-                                        <option value="" disabled selected> -- Seleccione una opción -- </option>
+                                        <option value="" disabled selected>
+                                            -- Selecciona un usuario --
+                                        </option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
                                         <option value="No especificado">No especificado</option>
                                     </select>
                                 </div>
+
+
+
                             </div>
+
                         </div>
                         <div class="mt-2">
-                            <button class="p-2 rounded-md w-full mt-2" type="submit">Guardar profesor</button>
+                            <button class="bg-green-500 font-semibold p-2 rounded-md w-full mt-2" type="submit">Guardar
+                                profesor</button>
                         </div>
                     </form>
                 </div>
@@ -75,20 +90,26 @@
                             <th class="px-4 py-2 flex justify-start">Email</th>
                             <th class="px-4 py-2 flex justify-start">Phone</th>
                             <th class="px-4 py-2 flex justify-start">Birthday</th>
-                            <th class="px-4 py-2 flex justify-start">Actions</th>
+                            <th class="px-4 py-2 flex justify-start mr-13">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         <tr v-for="(teacher, index) in teachers" :key="teacher.id" class=" flex justify-between"
                             :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
-                            <td class=" px-4 py-2 hidden">{{ teacher.id }}</td>
+                            <td class="px-4 py-2 hidden">{{ teacher.id }}</td>
                             <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.name }}</td>
                             <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.surname }}</td>
                             <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.email }}</td>
                             <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ teacher.phone }}</td>
-                            <td class="flex items-center justify-start px-4 py-2 w-1/6">{{ normalizeDate(teacher.birthday)
-                            }}</td>
-                            <td class="grid items-center gap-2 grid-cols-2 p-2">
+                            <td class="flex items-center justify-start px-4 py-2 w-1/6">
+                                {{ normalizeDate(teacher.birthday) }}
+                            </td>
+
+                            <td class="grid items-center gap-2 grid-cols-3 p-2 ">
+                                <NuxtLink :to="'/admin/assign/' + teacher.id"
+                                    class="bg-cyan-500 hover:bg-cyan-700 font-bold py-2 px-4 rounded">
+                                    <Icon name="ci:sub-right" class=" text-xl" />
+                                </NuxtLink>
                                 <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
                                     @click="editUser(teacher.id)">
                                     <Icon name="fa6-solid:pencil" />
@@ -122,6 +143,7 @@ interface User {
     email: string;
     phone: string;
     birthday: string;
+    sex: string;
 }
 
 const id = ref();
@@ -135,6 +157,7 @@ const sex = ref();
 const teachers = ref([]);
 
 const register = async () => {
+
     if (id.value === '' || id.value === undefined || id.value === null) {
         await $fetch('/auth/register', {
             method: "POST",
@@ -148,7 +171,7 @@ const register = async () => {
                 password: password.value,
                 birthday: birthday.value,
                 role: '1',
-                sex: sex.value
+                sex: sex.value,
             })
         }).then(async (data: any) => {
 
@@ -161,16 +184,17 @@ const register = async () => {
                 password.value = '';
                 birthday.value = '';
 
-                teachers.value = await getUsersByRole();
+
             } else {
-                // Login failed
-                console.log(data);
+                console.log('error data', data);
             }
-        }).catch((error) => {
-            console.log(error);
+            teachers.value = await getUsersByRole();
+        }).catch(async (error) => {
+            console.log('error', error);
+            teachers.value = await getUsersByRole();
         });
     } else {
-        // TODO: Editar profesor
+        await updateUser(id.value, name.value, surname.value, email.value, phone.value, birthday.value, sex.value);
     }
 
 }
@@ -192,11 +216,11 @@ const getUsersByRole = async () => {
 }
 
 // TODO: Editar profesor
-const updateUser = async (id: any, name: any, surname: any, email: any, phone: any) => {
+const updateUser = async (id: any, name: any, surname: any, email: any, phone: any, birthday: any, sex: any) => {
     const response = await $fetch('/api/users/updateUserByID', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, name, surname, email, phone })
+        body: JSON.stringify({ id, name, surname, email, phone, birthday, sex })
     });
     return response;
 }
@@ -216,7 +240,8 @@ async function getUserById(id: string): Promise<User | null> {
                 surname: response[0].surname,
                 email: response[0].email,
                 phone: response[0].phone,
-                birthday: new Date(response[0].birthday).toISOString().split('T')[0]
+                birthday: new Date(response[0].birthday).toISOString().split('T')[0],
+                sex: response[0].sex
             };
             return user;
         } else {
@@ -238,6 +263,7 @@ async function editUser(idParam: string) {
         email.value = user.email;
         phone.value = user.phone;
         birthday.value = user.birthday;
+        sex.value = user.sex
     }
 }
 async function deleteUser(id: string) {
@@ -299,11 +325,14 @@ function normalizeDate(date: string) {
     return `${da}-${mo}-${ye}`;
 }
 
-function displayError(message: string) {
-    const error = document.getElementById("error");
-    if (error) {
-        error.innerHTML = message;
-        error.classList.remove("hidden");
+function generateRandom(campo: string) {
+    if (campo === 'tel') {
+        const randomNumber = Math.floor(Math.random() * 1000000000).toString().padStart(10, '6');
+        this.phone = randomNumber.substring(0, 9);
+    } else if (campo === 'fecha') {
+        const randomDate = new Date(+new Date(1970, 0, 1) + Math.random() * (new Date(2002, 0, 1).getTime() - new Date(1970, 0, 1).getTime()));
+        this.birthday = randomDate.toISOString().split('T')[0];
+
     }
 }
 

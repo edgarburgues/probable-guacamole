@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
 
 
-    await prisma.user.update({
+    const update = await prisma.user.update({
         where: {
             id: body.id,
         },
@@ -17,19 +17,23 @@ export default defineEventHandler(async (event) => {
             surname: body.surname,
             email: body.email,
             phone: body.phone,
-
+            birthday: body.birthday,
+            sex: body.sex
         },
-    }).catch((e) => {
-        return {
-            statusCode: 400,
-            body: e,
-        }
     })
 
+    if (!update) {
+        return {
+            status: 404,
+            body: { message: 'Not found' },
+        }
+    }
 
     return {
-        statusCode: 200,
-        body: body.birthday,
+        status: 200,
+        body: update,
     }
 
 })
+
+// BUG: No actualiza el curso --> student_courses

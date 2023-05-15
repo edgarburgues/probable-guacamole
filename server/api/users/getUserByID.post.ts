@@ -9,6 +9,10 @@ export default defineEventHandler(async (event) => {
     const users = await prisma.user.findMany({
         where: {
             id: id
+        },
+        include: {
+            student_courses: true,
+            teacher_courses: true
         }
     })
 

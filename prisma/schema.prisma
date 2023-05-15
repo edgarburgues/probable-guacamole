@@ -36,7 +36,7 @@ model User {
 model Subjects {
   id         String       @id @default(cuid())
   name       String?
-  course     Courses      @relation(fields: [course_id], references: [id])
+  course     Courses?     @relation(fields: [course_id], references: [id])
   course_id  String
   Activities Activities[]
   Absences   Absences[]
@@ -53,7 +53,7 @@ model Courses {
 model Messages {
   id         String   @id @default(cuid())
   text       String?
-  user       User     @relation(fields: [user_id], references: [id])
+  user       User?    @relation(fields: [user_id], references: [id])
   user_id    String
   from_id    String   @default("0")
   created_at DateTime @default(now())
@@ -62,7 +62,7 @@ model Messages {
 model Todos {
   id      String  @id @default(cuid())
   text    String?
-  user    User    @relation(fields: [user_id], references: [id])
+  user    User?   @relation(fields: [user_id], references: [id])
   user_id String
   done    Boolean @default(false)
 }
@@ -70,7 +70,7 @@ model Todos {
 model Events {
   id        String   @id @default(cuid())
   title     String?
-  user      User     @relation(fields: [user_id], references: [id])
+  user      User?    @relation(fields: [user_id], references: [id])
   user_id   String
   from_date DateTime
   to_date   DateTime
@@ -79,33 +79,33 @@ model Events {
 }
 
 model Absences {
-  id         String   @id @default(cuid())
-  user       User     @relation(fields: [user_id], references: [id])
+  id         String    @id @default(cuid())
+  user       User?     @relation(fields: [user_id], references: [id])
   user_id    String
   date       DateTime
   from_hour  DateTime
   to_hour    DateTime
-  justified  Boolean  @default(false)
-  state      String   @default("Pendiente")
-  subject    Subjects @relation(fields: [subject_id], references: [id])
+  justified  Boolean   @default(false)
+  state      String    @default("Pendiente")
+  subject    Subjects? @relation(fields: [subject_id], references: [id])
   subject_id String
 }
 
 model Activities {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String?
-  subject    Subjects @relation(fields: [subject_id], references: [id])
+  subject    Subjects? @relation(fields: [subject_id], references: [id])
   subject_id String
   limit_date DateTime
-  done       Boolean  @default(false)
-  state      String   @default("Pendiente")
-  created_at DateTime @default(now())
+  done       Boolean   @default(false)
+  state      String    @default("Pendiente")
+  created_at DateTime  @default(now())
 }
 
 model Usercourse {
-  id        String  @id @default(cuid())
-  user      User    @relation(fields: [user_id], references: [id])
+  id        String   @id @default(cuid())
+  user      User?    @relation(fields: [user_id], references: [id])
   user_id   String
-  course    Courses @relation(fields: [course_id], references: [id])
+  course    Courses? @relation(fields: [course_id], references: [id])
   course_id String
 }

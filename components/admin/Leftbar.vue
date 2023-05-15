@@ -44,7 +44,7 @@
                     <p class=" w-full pl-6 p-3">
                         <Icon name="material-symbols:school-outline" class="text-2xl" />
                         <span class="ml-2">
-                            Estudiantess
+                            Estudiantes
                         </span>
                     </p>
 
@@ -79,7 +79,7 @@
 
         <ul>
             <li class="">
-                <NuxtLink to="../account" class="flex">
+                <NuxtLink to="/account" class="flex">
                     <p class="w-full pl-6 p-3">
                         <Icon name="ic:round-personal-video" class="text-2xl" />
                         <span class="font-bold ml-2">

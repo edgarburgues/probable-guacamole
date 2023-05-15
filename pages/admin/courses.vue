@@ -6,9 +6,8 @@
 
         <div class="flex flex-col w-full bg-gray-100">
 
-            <div class="p-4 grid grid-cols-2 gap-3">
-                <form @submit.prevent="createCourse" class=" shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-green-300">
-
+            <div class="p-4 grid grid-cols-2 gap-3 items-end">
+                <form @submit.prevent="createCourse" class=" shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-green-300 h-fit">
                     <input class="hidden" type="text" v-model="idCourse" placeholder="id" />
                     <div class="mt-2">
                         <input class="w-full rounded p-2 " type="text" v-model="nameCourse" placeholder="Nombre" required />
@@ -49,7 +48,7 @@
                 <table class="rounded-xl flex flex-col shadow-xl h-fit">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2 w-1/3 flex justify-start">Nombre</th>
+                            <th class="px-4 py-2 w-1/3 flex justify-start">Curso</th>
                             <th class="px-4 py-2 w-1/3 flex justify-center">Nº de asignaturas</th>
                             <th class="px-4 py-2 w-1/3 flex justify-end">Acciones</th>
                         </tr>
@@ -81,7 +80,7 @@
                 <table class="rounded-xl  flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
-                            <th class="px-4 py-2 w-1/2 flex justify-start">Nombre</th>
+                            <th class="px-4 py-2 w-1/2 flex justify-start">Asignatura</th>
                             <th class="px-4 py-2 w-1/4 flex justify-start">Curso</th>
                             <th class="px-4 py-2 w-1/4 flex justify-end">Acciones</th>
                         </tr>
@@ -184,8 +183,6 @@ async function deleteCourse(idCourse) {
         body: JSON.stringify(data)
     });
 
-    let result = await response.json();
-
     getCourses();
 }
 
@@ -233,9 +230,6 @@ async function createSubject() {
         },
         body: JSON.stringify(data)
     });
-
-    // let result = await response.json();
-
     getSubjects();
 }
 
@@ -289,7 +283,6 @@ async function editSubject(idSubject) {
     idSubject.value = result.body.id;
     nameSubject.value = result.body.name;
 }
-
 
 
 // -------------------------------------------
