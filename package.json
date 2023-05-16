@@ -23,10 +23,15 @@
     "@fullcalendar/timegrid": "^6.1.7",
     "@fullcalendar/vue3": "^6.1.7",
     "@heroicons/vue": "^2.0.17",
+    "@koa/multer": "^3.0.2",
     "@nuxtjs/tailwindcss": "^6.6.7",
     "@types/jsonwebtoken": "^8.5.9",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.0",
+    "koa": "^2.14.2",
+    "koa-body": "^6.0.1",
+    "koa-bodyparser": "^4.4.0",
+    "koa2-cors": "^2.0.6"
   }
 }

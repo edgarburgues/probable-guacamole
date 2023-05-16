@@ -3,27 +3,29 @@
     <div class="flex min-h-full">
         <AdminLeftbar active="messages" />
 
-        <div class="flex flex-col w-full p-6 ">
-            <div class="bg-green-200 p-4 rounded-xl">
+        <div class="flex flex-col w-full p-6 bg-gray-100">
+            <div class="">
                 <div class="flex">
-                    <button class="bg-green-500 rounded-xl w-24 mr-3 font-semibold" @click="displayNew">Nuevo</button>
-                    <input @keyup="" type="text" placeholder="Buscar mensaje" class=" w-full p-2 rounded-xl pl-3">
+                    <button @click="displayForm" class="bg-green-500 rounded-xl w-24 mr-3 font-semibold">Nuevo</button>
+                    <input @keyup="searchTeacher" id="searchText" type="text" placeholder="Buscar profesor"
+                        class=" w-full p-2 rounded-xl pl-3 shadow-2xl">
                 </div>
-
-                <form id="newMessage" @submit.prevent="sendMessage" class="py-4">
-                    <select class="w-full p-2 rounded-md" v-model="userSelected">
-                        <option class="text-xl" value="" disabled selected>-- Selecciona un usuario --</option>
-                        <option class="text-xl" v-for="user in users" :key="user.id" :value="user.id">
-                            {{ user.role }} - {{ user.name }} - {{ user.email }} - {{ user.id }}
-                        </option>
-                    </select>
-                    <textarea v-model="messageContent" type="text" placeholder="Escribe tu mensaje"
-                        class=" w-full p-2 rounded-md  mt-2" />
-                    <button type="submit" class="bg-green-500 p-2 rounded-md w-full mt-2">Enviar</button>
-                </form>
+                <div id="newMessage">
+                    <form @submit.prevent="sendMessage" class="py-4">
+                        <select class="w-full p-2 rounded-md" v-model="userSelected">
+                            <option class="text-xl" value="" disabled selected>-- Selecciona un usuario --</option>
+                            <option class="text-xl" v-for="user in users" :key="user.id" :value="user.id">
+                                {{ user.surname + ', ' + user.name }} - {{ user.email }}
+                            </option>
+                        </select>
+                        <textarea v-model="messageContent" type="text" placeholder="Escribe tu mensaje"
+                            class=" w-full p-2 rounded-md  mt-2" />
+                        <button type="submit" class="bg-green-500 p-2 rounded-md w-full mt-2">Enviar</button>
+                    </form>
+                </div>
             </div>
 
-            <div class="p-4">
+            <div class="py-3">
                 <table class="rounded-xl bg-emerald-400 flex flex-col">
 
                     <thead class="bg-emerald-500 rounded-t-xl">
@@ -72,6 +74,15 @@ definePageMeta({
     middleware: ["auth"],
     layout: "admin",
 });
+onMounted(async () => {
+
+    const usersData = await getUsers();
+    users.value = usersData.body;
+    const messagesData = await getMessages();
+    messages.value = messagesData.body;
+    displayForm();
+});
+
 
 const me = async () => {
     const token = useCookie('token').value || "";
@@ -96,6 +107,7 @@ const messageContent = ref("");
 const messages = ref([]);
 
 async function getUsers() {
+
     return await $fetch('/api/users/getAllUsers', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,13 +118,7 @@ async function getUsers() {
     });
 }
 
-onMounted(async () => {
-    displayNew();
-    const usersData = await getUsers();
-    users.value = usersData.body;
-    const messagesData = await getMessages();
-    messages.value = messagesData.body;
-});
+
 
 async function sendMessage() {
     const newMessage = {
@@ -171,14 +177,14 @@ async function deleteMessage(idMessage) {
 }
 
 
-async function displayNew() {
-    const newMessage = document.getElementById('newMessage');
-    newMessage.classList.toggle('hidden');
+function displayForm() {
+    const form = document.getElementById("newMessage");
+    if (form) {
+        form.classList.toggle("hidden");
+    }
 }
 
-// TODO: Cambiar los divs a una tabla
 // TODO: Cambiar el select por un input de busqueda
-// TODO: Implementar el buscador
 // TODO: Marcar como leido
 
 </script>

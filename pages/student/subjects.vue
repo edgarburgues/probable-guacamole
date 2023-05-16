@@ -1,7 +1,7 @@
 <template>
     <title>Dashboard | Capitol Formación Profesional</title>
     <div class="flex min-h-full">
-        <TeacherLeftbar active="subjects" />
+        <StudentLeftbar active="subjects" />
         <div class="flex flex-col w-full p-6 bg-gray-100">
 
             <h1 class="text-2xl font-bold">Mis asignaturas</h1>

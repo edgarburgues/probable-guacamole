@@ -17,9 +17,9 @@ export default defineEventHandler(async (event) => {
             surname: body.surname,
             email: body.email,
             phone: body.phone,
-            birthday: body.birthday,
+            birthday: new Date(body.birthday),
             sex: body.sex
-        },
+        } as any,
     })
 
     if (!update) {

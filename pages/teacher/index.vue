@@ -66,7 +66,7 @@
                                 <li v-for="task in todos" class="w-full p-1">
                                     <label class="w-full grid grid-cols-9  font-bold">
                                         <button class="text-white rounded-md" @click="deleteTask(task.id)">X</button>
-                                        <p class="col-span-8 shadow-2xl">
+                                        <p class="col-span-8">
                                             {{ task.text.length > 33 ? task.text.substring(0, 30) + '...' : task.text }}
                                         </p>
                                     </label>
@@ -102,7 +102,6 @@
 
 definePageMeta({
     middleware: ["auth"],
-    // layout: "admin"
 });
 
 

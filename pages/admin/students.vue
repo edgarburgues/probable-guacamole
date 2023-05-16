@@ -107,7 +107,7 @@
                                     Curso
                                 </div>
                             </th>
-                            <th class="flex w-1/12 p-2 justify-end">Acciones</th>
+                            <th class="flex items-center w-1/12 p-2 justify-end">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -123,10 +123,10 @@
                                 <div>{{ student.student_courses.length > 0 ? student.student_courses[0].name : '' }}</div>
                             </td>
                             <td class="flex justify-end w-1/12 gap-2 p-2">
-                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
-                                    @click="editUser(student.id)">
+                                <NuxtLink :to="'/admin/edit/student/' + student.id"
+                                    class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded">
                                     <Icon name="fa6-solid:pencil" />
-                                </button>
+                                </NuxtLink>
                                 <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteUser(student.id)">
                                     <Icon name="fa6-solid:trash-can" />

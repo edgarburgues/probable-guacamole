@@ -103,7 +103,7 @@ const userCourses = await $fetch('/api/courses/getCoursesByTeacherID', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-        id: teacherID
+        user_id: teacherID
     })
 }).then((data: any) => {
     return data.body;
@@ -111,8 +111,6 @@ const userCourses = await $fetch('/api/courses/getCoursesByTeacherID', {
     console.log(error);
 });
 
-
-console.log(userCourses);
 
 
 </script>

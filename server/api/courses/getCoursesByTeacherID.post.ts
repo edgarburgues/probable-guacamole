@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
     const userCourses = await prisma.usercourse.findMany({
         where: {
-            id: body.user_id
+            user_id: body.user_id
         },
         select: {
             course: {

@@ -13,7 +13,7 @@
                 </div>
 
                 <div id="newTeacherForm">
-                    <form @submit.prevent="register" class="flex flex-col bg-emerald-300 shadow-md rounded-xl p-4 mt-5">
+                    <form @submit.prevent="register" class="flex flex-col  rounded-xl p-4 mt-5 bg-gree">
                         <div class="flex gap-3 ">
                             <div class="w-full flex flex-col justify-between">
                                 <input class="hidden" type="text" v-model="id" />
@@ -36,7 +36,7 @@
 
                             </div>
 
-                            <div class="w-full flex flex-col">
+                            <div class="w-full flex flex-col justify-between">
                                 <div class="flex">
                                     <input id="tel" class="w-full rounded p-2 border-b-2" type="tel" v-model="phone"
                                         placeholder="Teléfono" required ref="telInput" />
@@ -56,7 +56,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="mt-2">
+                                <div class="">
                                     <label for="sex" class="ml-2">Sexo:</label>
                                     <select class="w-full rounded p-2 border-b-2" v-model="sex" required>
                                         <option value="" disabled selected>
@@ -110,10 +110,10 @@
                                     class="bg-cyan-500 hover:bg-cyan-700 font-bold py-2 px-4 rounded">
                                     <Icon name="ci:sub-right" class=" text-xl" />
                                 </NuxtLink>
-                                <button class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded"
-                                    @click="editUser(teacher.id)">
+                                <NuxtLink :to="'/admin/edit/teacher/' + teacher.id"
+                                    class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded">
                                     <Icon name="fa6-solid:pencil" />
-                                </button>
+                                </NuxtLink>
                                 <button class="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
                                     @click="deleteUser(teacher.id)">
                                     <Icon name="fa6-solid:trash-can" />
@@ -132,8 +132,7 @@
 <script setup lang="ts">
 
 definePageMeta({
-    middleware: ["auth"],
-    // layout: "admin"
+    middleware: ["auth"]
 });
 
 interface User {
