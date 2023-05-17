@@ -15,7 +15,7 @@
                     <th class="p-2 ">Estado</th>
                 </thead>
                 <tbody>
-                    <tr v-for="element in absencesList" class="">
+                    <tr v-for="element in  absencesList " class="">
                         <td v-if="!element.justified" class="p-4">
                             <template v-for="student in students">
                                 <template v-if="student.id == element.user_id">
@@ -40,20 +40,25 @@
                                 <option value="Rechazado">Rechazado</option>
                             </select>
                         </td>
+
                         <td v-if="!element.justified" class="p-4 flex justify-center">
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+
+                            <button v-if="element.file_uploaded"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                                 @click="downloadFile(`${element.id}.pdf`)">
                                 Descargar justificante
                             </button>
+                            <button v-else @click="() => $toast.error('El alumno no ha subido justificante')"
+                                class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                                Descargar justificante
+                            </button>
+                            <Toaster position="bottom-right" richColors />
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div class="flex flex-col mt-9">
-                <input type="file" @change="handleFileChange" />
-                <button @click="uploadFile">Upload File</button>
-            </div>
+
 
         </div>
     </div>

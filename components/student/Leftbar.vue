@@ -1,72 +1,76 @@
 <template>
-    <div class="flex flex-col justify-between h-screen sticky top-0 w-96 shadow-2xl">
+    <div class="flex flex-col justify-between h-screen sticky top-0 w-72 shadow-2xl">
         <ul class="">
-            <img src="../assets/logo.webp" class="py-6">
+            <img src="../../assets/logo.webp" class="py-6">
             <li
                 :class="active === 'dashboard' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
-                <nuxt-link to="/account" class="flex">
-                    <p class="w-full pl-6 p-3">
-                        <Icon name="material-symbols:account-circle-outline" class="text-2xl" />
-                        <span class="font-bold ml-2">
-                            Configuración de cuenta
+                <NuxtLink to="/" class="">
+                    <p class="w-full pl-6 p-3 flex items-center">
+                        <Icon name="material-symbols:monitor-outline" class="text-2xl" />
+                        <span class="ml-2">
+                            Inicio
                         </span>
                     </p>
-                </nuxt-link>
+                </NuxtLink>
             </li>
             <li
-                :class="active === 'courses' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500 '">
-                <nuxt-link to="/notification" class="flex">
-                    <p class="w-full pl-6 p-3">
-                        <Icon name="material-symbols:circle-notifications-outline-rounded" class="text-2xl" />
-                        <span class="font-bold ml-2">
-                            Preferencias de notificación
+                :class="active === 'subjects' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
+                <NuxtLink to="/student/subjects" class="flex">
+                    <p class=" w-full pl-6 p-3">
+                        <Icon name="material-symbols:menu-book-outline" class="text-2xl" />
+                        <span class="ml-2">
+                            Mis asignaturas
                         </span>
                     </p>
-                </nuxt-link>
+
+                </NuxtLink>
             </li>
             <li
-                :class="active === 'teachers' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
-                <nuxt-link to="account/privacy" class="flex">
-                    <p class="w-full pl-6 p-3">
-                        <Icon name="material-symbols:key-outline-rounded" class="text-2xl" />
-                        <span class="font-bold ml-2">
-                            Configuración de privacidad
+                :class="active === 'absences' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
+                <NuxtLink to="/student/absences" class="flex">
+                    <p class=" w-full pl-6 p-3">
+                        <Icon name="maki:doctor" class="text-2xl" />
+                        <span class="ml-2">
+                            Mis faltas
                         </span>
                     </p>
-                </nuxt-link>
-            </li>
-            <li
-                :class="active === 'students' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
-                <nuxt-link to="account/interface" class="flex">
-                    <p class="w-full pl-6 p-3">
-                        <Icon name="tabler:table-options" class="text-2xl" />
-                        <span class="font-bold ml-2">
-                            Preferencias de interfaz
-                        </span>
-                    </p>
-                </nuxt-link>
+
+                </NuxtLink>
             </li>
             <li
                 :class="active === 'bulletin' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
-                <nuxt-link to="/security" class="flex">
-                    <p class="w-full pl-6 p-3">
-                        <Icon name="material-symbols:back-hand-outline-rounded" class="text-2xl" />
-                        <span class="font-bold ml-2">
-                            Configuración de seguridad
+                <NuxtLink to="/" class="flex">
+                    <p class=" w-full pl-6 p-3">
+                        <Icon name="mdi:bulletin-board" class="text-2xl" />
+                        <span class="ml-2">
+                            Bulletin
                         </span>
                     </p>
-                </nuxt-link>
+
+                </NuxtLink>
+            </li>
+            <li
+                :class="active === 'messages' ? 'bg-emerald-500 hover:bg-emerald-600 font-bold' : 'bg-green-200 hover:bg-emerald-500'">
+                <NuxtLink to="/student/messages" class="flex">
+                    <p class=" w-full pl-6 p-3">
+                        <Icon name="material-symbols:chat-bubble-outline" class="text-2xl" />
+                        <span class="ml-2">
+                            Messages
+                        </span>
+                    </p>
+
+                </NuxtLink>
             </li>
 
         </ul>
 
         <ul>
             <li class="">
-                <NuxtLink to="/" class="flex">
+                <NuxtLink to="../account" class="flex">
                     <p class="w-full pl-6 p-3">
-                        <Icon name="ic:round-arrow-back" class="text-2xl" />
+                        <Icon name="ic:round-personal-video" class="text-2xl" />
                         <span class="font-bold ml-2">
-                            Inicio
+                            Cuenta
                         </span>
                     </p>
                 </NuxtLink>
@@ -87,3 +91,4 @@ const props = defineProps({
 
 
 </script>
+

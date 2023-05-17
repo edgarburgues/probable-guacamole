@@ -12,11 +12,11 @@ app.use(bodyParser());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, 'storage'));
+        const absenceID = req.params.absenceID; // Obtener el absenceID de la ruta
+        cb(null, path.join(__dirname, 'storage', absenceID));
     },
     filename: (req, file, cb) => {
-        const uniqueName = file.originalname + '.pdf';
-        cb(null, uniqueName);
+        cb(null, file.originalname);
     }
 });
 
@@ -37,7 +37,7 @@ app.use(async (ctx, next) => {
             ctx.status = 404;
             ctx.body = error;
         }
-    } else if (ctx.path.startsWith('/upload')) {
+    } else if (ctx.path.startsWith('/upload/')) {
         await upload.single('file')(ctx, next);
         const uploadedFile = ctx.file;
         console.log(uploadedFile);
