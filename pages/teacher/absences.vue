@@ -19,7 +19,7 @@
                         <td v-if="!element.justified" class="p-4">
                             <template v-for="student in students">
                                 <template v-if="student.id == element.user_id">
-                                    {{ student.surname }}, {{ student.name }}, {{ element.id }}
+                                    {{ student.surname }}, {{ student.name }}
                                 </template>
                             </template>
                         </td>

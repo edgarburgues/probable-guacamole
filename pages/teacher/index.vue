@@ -6,49 +6,19 @@
 
 
         <div class="flex flex-col w-full p-6 bg-gray-100">
-            <DashboardContainer class="bg-emerald-300 mb-3">
-                <div class="h-full flex flex-col">
-                    <h1 class="text-2xl font-bold "> Welcome {{ _name }} </h1>
-                    <p class="mt-2">
-                        Quote of the day
-                    </p>
-                </div>
+            <DashboardContainer class="bg-emerald-300 mb-3 flex">
+                <h1 class="text-2xl font-bold ">
+                    <template v-if="user.sex === 'Masculino'">
+                        Bienvenido 
+                    </template>
+                    <template v-else>
+                        Bienvenida 
+                    </template>
+                </h1>
+
+                <span class="text-2xl font-bold ">{{ _name }}</span>
             </DashboardContainer>
 
-            <!--
-            <DashboardContainer class="bg-red-300 ">
-                <h1 class="text-2xl font-bold "> Notifications </h1>
-                <br />
-                <div class="flex">
-                    <div class="flex w-full items-center justify-between h-1/2 ">
-                        <h1 class="text-xl font-bold  "> Teachers </h1>
-                        <DashboardNotifcation id="teacherNumber"></DashboardNotifcation>
-                    </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Students </h1>
-                        <DashboardNotifcation id="studentsNumber"></DashboardNotifcation>
-                    </div>
-
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Courses </h1>
-                        <DashboardNotifcation id="coursesNumber"></DashboardNotifcation>
-                    </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Subjects </h1>
-                        <DashboardNotifcation id="subjectsNumber"></DashboardNotifcation>
-                    </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Bulletin </h1>
-                        <DashboardNotifcation id="bulletinNumber"></DashboardNotifcation>
-                    </div>
-                    <div class="flex w-full items-center justify-between h-1/2">
-                        <h1 class="text-xl font-bold "> Messages </h1>
-                        <DashboardNotifcation id="messagesNumber"></DashboardNotifcation>
-                    </div>
-                </div>
-
-            </DashboardContainer>
-            -->
 
             <div class="flex mt-3 gap-3">
                 <DashboardContainer class="bg-blue-400 h-full w-full relative">
@@ -123,9 +93,9 @@ const me = async () => {
 }
 
 
-const { user: { id, name } } = await me();
+const { user } = await me();
 const _name = ref();
-_name.value = name;
+_name.value = user.name;
 const todos = ref();
 const taskText = ref();
 const taskErrorMsg = ref();
@@ -135,7 +105,7 @@ const getDashboardData = async () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            id,
+            id: user.id,
         })
     }).then((data: any) => {
         return data;
@@ -183,7 +153,7 @@ async function addTask() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            id: id,
+            id: user.id,
             text: taskText.value
         })
     }).then((data: any) => {
