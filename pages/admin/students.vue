@@ -91,6 +91,7 @@
 
             </div>
             <div class="p-4">
+
                 <table class="rounded-xl bg-emerald-400 flex flex-col">
                     <thead class="bg-emerald-500 rounded-t-xl">
                         <tr class="flex justify-between">
@@ -136,6 +137,7 @@
                         <tr class="w-full bg-emerald-500 flex h-9 rounded-b-xl " />
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>

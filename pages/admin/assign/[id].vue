@@ -5,19 +5,19 @@
         <div class="flex flex-col w-full p-6 bg-gray-100">
             <h1 class="text-2xl font-bold">ID Profesor: {{ teacherID }}</h1>
 
-            <table class=" mt-3 w-1/2">
-                <thead class="bg-emerald-300">
-                    <tr>
-                        <th class="border">Nombre</th>
-                        <th class="border">Apellidos</th>
-                        <th class="border">Email</th>
-                        <th class="border">asistencia</th>
+
+            <table class="rounded-xl bg-emerald-400 flex flex-col shadow-xl w-1/3 mt-3">
+                <thead class="bg-emerald-500 rounded-t-xl">
+                    <tr class="flex justify-around">
+                        <th class="">Curso</th>
+                        <th class="">Asignar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="course in courses" :key="course.id">
-                        <td>{{ course.name }}</td>
-                        <td>
+                    <tr v-for="(course, index) in courses" :key="course.id" class=" flex justify-around"
+                        :class="index % 2 === 0 ? 'bg-emerald-300' : 'bg-emerald-200'">
+                        <td class="flex items-center justify-start py-2">{{ course.name }}</td>
+                        <td class="p-2 flex items-center ">
                             <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"
                                 @change="assignTeacher(teacherID, course.id, $event)"
                                 :checked="userCourses.some(userCourse => userCourse.course.id === course.id)" />
