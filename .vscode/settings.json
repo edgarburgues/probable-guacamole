@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.tokenColorCustomizations": {},
+    "workbench.colorCustomizations": {
+        "editor.background": "#1c232b"
+    }
+}
